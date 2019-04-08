@@ -1,0 +1,179 @@
+<style>
+        input[type="text"]{width: 100%;}
+        .requireField{
+                border:1px solid red;
+        }
+</style>
+
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" (onShow)="onShow()" [minWidth]="380" [contentStyle]="{width: '50vw', height: '30vh', overflow: 'visible'}">
+        <form [formGroup]="saveForm">
+                <input type="hidden" formControlName="consignSerial" />
+                <div class="ui-g">
+                        <div class="ui-g-3" style="text-align:right">ผู้ส่งออก</div>
+                        <div class="ui-g-8">
+                                <p-dropdown appendTo="body" #supSerial [options]="supSerialList" formControlName="supSerial"
+                                filter="true" [autoWidth]="false" placeholder="เลือก" [style]="{'width':'100%'}"
+                                [ngClass]="{'ng-dirty ng-invalid':submitted && saveForm.controls.supSerial.errors}"></p-dropdown>
+                                <div *ngIf="submitted && saveForm.controls.supSerial.errors" style="color:red;font-size:11px;">กรุณาระบุผู้ส่งออก</div>
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-3" style="text-align:right">ผู้ซื้อ</div>
+                        <div class="ui-g-8">
+                                <p-dropdown appendTo="body" #byrSerial [options]="byrSerialList" formControlName="byrSerial"
+                                filter="true" [autoWidth]="false" placeholder="เลือก"
+                                [ngClass]="{'ng-dirty ng-invalid':submitted && saveForm.controls.byrSerial.errors}"></p-dropdown>
+                                <div *ngIf="submitted && saveForm.controls.byrSerial.errors" style="color:red;font-size:11px;">กรุณาระบุผู้ซื้อ</div>
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-3" style="text-align:right">สิทธิ</div>
+                        <div class="ui-g-8">
+                                <p-radioButton name="isFzGroup" value="1" formControlName="isFz" label="ใช้สิทธิ"></p-radioButton> 
+                                &nbsp;
+                                <p-radioButton name="isFzGroup" value="0" formControlName="isFz" label="ไม่ใช้สิทธิ" ></p-radioButton> 
+                        </div>
+                </div>
+
+                <!-- <div class="ui-g-12">
+                        <p-tabView [activeIndex]="tabIndex" (onChange)="handleChange($event)">
+                                <p-tabPanel header="รายละเอียดผู้ซื้อ">
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">Tax Incentive</div>
+                                                <div class="ui-g-8"><input type="text" formControlName="byrtaxIncentive" /></div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">TaxId</div>
+                                                <div class="ui-g-8"><input type="text" formControlName="byrtaxId" /></div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">รหัสสาขา</div>
+                                                <div class="ui-g-8"><input type="text" formControlName="byrbranchCode" /></div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">ชื่อสาขา</div>
+                                                <div class="ui-g-8"><input type="text" formControlName="byrbranchName" /></div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">ฐานะของผู้ซื้อ</div>
+                                                <div class="ui-g-8">
+                                                        <p-dropdown [options]="byrStsIdList" formControlName="byrstsId"
+                                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">รหัสประเทศผู้ซื้อ</div>
+                                                <div class="ui-g-8">
+                                                        <p-dropdown [options]="byrCountryIdList" formControlName="byrcountryId"
+                                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">รูปแบบ Order</div>
+                                                <div class="ui-g-8">
+                                                        <p-radioButton name="groupname" value="1" formControlName="orderForm"
+                                                                (click)="setDisableOrder()"></p-radioButton>
+                                                        daily
+                                                        <p-radioButton name="groupname" value="2" formControlName="orderForm"
+                                                                (click)="setDisableOrder()"></p-radioButton>
+                                                        <input type="text" formControlName="orderDays" style="width: 40px;" />
+                                                        days
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">เริ่มทุกวันที่</div>
+                                                <div class="ui-g-8"><input type="number" formControlName="dayStart"
+                                                                style="width: 40px;" /> ของเดือน</div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">PlantCode</div>
+                                                <div class="ui-g-8"><input type="number" formControlName="byrplantId" /></div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">ประเภทผลิตภัณฑ์ผู้ซื้อ</div>
+                                                <div class="ui-g-8">
+                                                        <p-dropdown [options]="byrBusinessIdList" formControlName="byrbusinessId"
+                                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4" style="text-align:right">รหัสเขตปลอด MMTH</div>
+                                                <div class="ui-g-8">
+                                                        <p-dropdown [options]="byrfzIdList" formControlName="byrfzId"
+                                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-4"></div>
+                                                <div class="ui-g-8"></div>
+                                        </div>
+                                        <div class="ui-g-12" style="text-align: center">
+                                                <p-button icon="fa fa-print" type="submit" label="บันทึก"  ></p-button>
+                                                <p-button icon="fa fa-print" label="บันทึก" (click)="tbBuyerSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="pi pi-times" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+
+
+                                </p-tabPanel>
+
+                                <p-tabPanel header="ที่อยู่ผู้ซื้อ" style="display: inline-block;width: 100%;">
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">เลขที่,ถนน</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="text" formControlName="byrAddr1" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">ตำบล/แขวง</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="text" formControlName="byrTumbon" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">อำเภอ/เขต</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="text" formControlName="byrAmphur" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">จังหวัด</div>
+                                                <div class="ui-g-8 ui-md-4">
+                                                        <p-dropdown [options]="byrProvinceList" formControlName="byrProvinceId"
+                                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                                </div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">รหัสไปรษณีย์</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="number" formControlName=byrPostcode /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">โทรศัพท์</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="number" formControlName="byrPhone" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">โทรศัพท์มือถือ</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="number" formControlName="byrMobile" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4" style="text-align:right">แฟกซ์</div>
+                                                <div class="ui-g-8 ui-md-4"><input type="number" formControlName="byrFax" /></div>
+                                                <div class="ui-g-0 ui-md-4"></div>
+                                        </div>
+                                        -->
+                                        <div class="ui-g-12" style="text-align: center">
+                                                <p-button icon="ui-icon-save" label="บันทึก" (click)="tbConsigneeSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-clear" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                        <!--
+                                </p-tabPanel>
+
+                        </p-tabView>
+                </div> -->
+
+
+        </form>
+</p-dialog>

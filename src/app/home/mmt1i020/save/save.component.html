@@ -1,0 +1,214 @@
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [positionTop]="70" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" (onShow)="onShow()">
+        <form [formGroup]="saveForm">
+                <input type="hidden" formControlName="supSerial" />
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รหัสผู้ส่งออก</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                <input #supCode type="text" maxlength="5" numberOnly formControlName="supCode" 
+                                        [ngClass]="{'requireField':submitted && saveForm.controls.supCode.errors}" />
+                                        <div *ngIf="submitted && saveForm.controls.supCode.errors" style="color:red;">กรุณาระบุรหัสผู้ส่งออก</div>        
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ชื่อบริษัทผู้ส่งออก ภาษาอังกฤษ</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="200" formControlName="supNameEng" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.supNameEng.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.supNameEng.errors" style="color:red;">กรุณาระบุชื่อบริษัทผู้ส่งออก ภาษาอังกฤษ</div>        
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ภาษาไทย</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="200" formControlName="supNameTh" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.supNameTh.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.supNameTh.errors" style="color:red;">กรุณาระบุชื่อบริษัทผู้ส่งออก ภาษาไทย</div>        
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+
+                <p-tabView [activeIndex]="tabIndex" (onChange)="handleChange($event)" [style]="{'width':'80vw'}">
+                        <p-tabPanel header="รายละเอียดผู้ส่งออก" >
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">Tax Incentive</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="20" formControlName="suptaxIncentive" /></div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">TaxId</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="20" formControlName="suptaxId" /></div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">รหัสสาขา</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="5" formControlName="supbranchCode" /></div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">ชื่อสาขา</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="100" formControlName="supbranchName" /></div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">การลงนาม(Paperless)</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supauthpplTypeList" formControlName="supauthpplType"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">ประเภทสินค้า Part ที่ใช้</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supprodTypeList" formControlName="supprodType" 
+                                                [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">ไฟล์ Delivery Tag ที่ใช้</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supdeliveryTagList" formControlName="supdeliveryTag"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                       
+                                       
+                                       
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">PlantCode</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="5" formControlName="supplantCode" /></div>
+
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">การขอใช้สิทธิประโยชน์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supuseFlagList" formControlName="supuseFlag"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">สิทธิประโยชน์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supuseTypeList" formControlName="supuseType"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                                        <!-- <input type="text" formControlName="supuseType" /> -->
+                                        </div>
+                                </div>
+                                <div class="ui-g" *ngIf="checkSelectSupuseType('1')">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">{{getLableSupregis()}}</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="100" formControlName="supregisN019" /></div>
+                                </div>
+                                <div class="ui-g" *ngIf="checkSelectSupuseType('2')">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">{{getLableSupregis()}}</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="100" formControlName="supregisBoi19" /></div>
+                                </div>
+                                <div class="ui-g" *ngIf="checkSelectSupuseType('3')">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">{{getLableSupregis()}}</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3"><input type="text" maxlength="100" formControlName="supregisBoippl" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">Layout Version</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="suplayoutVersList" formControlName="suplayoutVers"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">ท่าเรือที่ตรวจปล่อยของ</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supAreaPortList" formControlName="supreleasePort"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">ท่าเรือที่บรรทุกของ</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-dropdown class="fz-dropdown" [options]="supAreaPortList" formControlName="supcargoPort"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-3 font-right">สถานะ</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                                <p-radioButton name="supstsFlagGroup" value="1" formControlName="supstsFlag" label="Active"></p-radioButton> 
+                                                &nbsp;
+                                                <p-radioButton name="supstsFlagGroup" value="2" formControlName="supstsFlag" label="N/A" ></p-radioButton> 
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save" label="บันทึก" (click)="tbSupplierSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+
+                        <p-tabPanel header="ที่อยู่บริษัทผู้ส่งออก(EN)" style="display: inline-block;width: 100%;">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">เลขที่,ถนน</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input #supCode type="text" maxlength="70"
+                                                        formControlName="supAddr1" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ตำบล/แขวง</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="supTumbon" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">อำเภอ/เขต</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="supAmphur" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">จังหวัด</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [options]="supProvinceList" formControlName="supProvinceId"
+                                                        [style]="{'width':'100%'}" filter="true" placeholder="เลือก"></p-dropdown>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รหัสไปรษณีย์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" numberOnly formControlName=supPostcode maxlength="9"/></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">โทรศัพท์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" numberOnly formControlName="supPhone" maxlength="9"/></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">โทรศัพท์มือถือ</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" numberOnly formControlName="supMobile" maxlength="10"/></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">แฟกซ์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" numberOnly formControlName="supFax" maxlength="10"/></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save" label="บันทึก" (click)="tbSupplierSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+
+                        <p-tabPanel header="ที่อยู่บริษัทผู้ส่งออก(TH)">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">เลขที่,ถนน</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="supAddr1Th" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ตำบล/แขวง</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="supTumbonTh" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">อำเภอ/เขต</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="supAmphurTh" /></div>
+                                        <div class="ui-g-12 ui-md-0 ui-lg-4"></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save"  label="&nbsp;&nbsp;บันทึก" (click)="tbSupplierSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+                </p-tabView>
+        </form>
+</p-dialog>

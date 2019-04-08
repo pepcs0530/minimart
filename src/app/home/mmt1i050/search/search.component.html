@@ -1,0 +1,85 @@
+<div class="container">
+        <form [formGroup]="searchForm">
+                <p-fieldset legend="ค้นหา">
+                        <div class="searchPanel">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-3 font-right">ผู้ส่งออก </div>
+                                        <div class="ui-g-12 ui-md-9"><input type="text" numberOnly formControlName="supSerial"
+                                                         maxlength="6" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-3 ui-lg-3 font-right">PartNo </div>
+                                        <div class="ui-g-12 ui-md-9 ui-lg-3"><input  type="text" formControlName="partNo" /></div>
+                                        
+                                        <div class="ui-g-12 ui-md-3 ui-lg-3 font-right">Price Confirm </div>
+                                        <div class="ui-g-12 ui-md-9 ui-lg-3"><input  type="text" formControlName="pricecfNo" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4"></div>
+                                        <div class="ui-g-12 ui-md-8">
+                                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                                <p-button icon="ui-icon-search" label="ค้นหา" (click)="onSearchPrice()">
+                                                </p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="ui-g-12" style="text-align: right">
+                                <p-button icon="ui-icon-save" label="นำเข้าข้อมูล" (click)="openUploadPage()"></p-button>
+                                        &nbsp;
+                                <p-button icon="ui-icon-add-circle" label="เพิ่ม" (click)="onAddPrice()"></p-button>
+                                &nbsp;
+                                <p-button icon="ui-icon-delete" label="ลบ" (click)="onDeletePrice()"></p-button>
+                        </div>
+                        <div class="ui-g-12">
+
+                                <p-table #tb [columns]="cols" [value]="tbPricecfList" [lazy]="true" dataKey="pricecfSerial"
+                                        (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5"
+                                        [totalRecords]="totalRecords" [loading]="loading" [(selection)]="tbPricecfSelectList"
+                                        [responsive]="true" [rowsPerPageOptions]="[5,10,20,30]" paginatorPosition="top">
+                                        <ng-template pTemplate="caption">
+                                                ตารางข้อมูลราคาสินค้า (Price Confirm)
+                                        </ng-template>
+
+                                        <ng-template pTemplate="header" let-columns>
+                                                <tr>
+                                                        <th style="width: 3em">
+                                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                        </th>
+                                                        <th *ngFor="let col of columns" style="text-align: center">
+                                                                {{col.header}}
+                                                        </th>
+                                                        <th style="width:4em"></th>
+                                                </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                                <tr [pSelectableRow]="rowData">
+
+                                                        <td>
+                                                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                                        </td>
+                                                        <!-- <td *ngFor="let col of columns">
+                                                                        {{rowData[col.field]}}
+                                                        </td> -->
+                                                        <td *ngFor="let col of columns">
+                                                                <div *ngIf="col.field === 'pricecfSerial'" style="text-align: center">{{rowData[col.field]}}</div>
+                                                                <div *ngIf="col.field === 'supCode'" style="text-align: center">{{rowData[col.field]}}</div>
+                                                                <div *ngIf="col.field === 'partNo'" style="text-align: center">{{rowData[col.field]}}</div>
+                                                                <div *ngIf="col.field === 'pricecfNo'" style="text-align: right">{{rowData[col.field] | thaiBathFormat}}</div>
+                                                                <div *ngIf="col.field === 'priceUnit'" style="text-align: right">{{rowData[col.field] | thaiBathFormat}}</div>
+                                                                <div *ngIf="col.field === 'startDate'" style="text-align: center">{{rowData[col.field] | dateThaiFormatDDMMYYYY}}</div>
+                                                                <div *ngIf="col.field === 'endDate'" style="text-align: center">{{rowData[col.field] | dateThaiFormatDDMMYYYY}}</div>
+                                                        </td>
+                                                        <td>
+                                                                <p-button icon="ui-icon-edit" (click)="onEditPrice(rowData)"></p-button>
+                                                        </td>
+                                                </tr>
+                                        </ng-template>
+                                </p-table>
+                        </div>
+                </p-fieldset>
+        </form>
+</div>

@@ -1,0 +1,86 @@
+<!-- main app container -->
+
+<div class="jumbotron">
+    <div class="container">
+        
+        <div class="row">
+           
+
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+
+                        <div class="ui-g-offset-2 ui-g-12">
+
+
+                        <p-fieldset legend="ลงทะเบียน">
+                        <div class="ui-g-12">
+
+                                <div class="ui-g-12">
+                                        <div class="card">
+                                            <!-- <img src="assets/layout/images/dashboard/gradient-waters.png" library="serenity-layout" /> -->
+                            
+                                            <div style='overflow:scroll; width:100%;height:100%;'>
+                                                <h3>เงื่อนไขการลงทะเบียน</h3>
+                                                <span></span>
+                                                <p>
+                                                    1............................
+                                                </p>
+                                                <p>
+                                                    2............................
+                                                 </p>
+                                                 <p>
+                                                    3............................
+                                                 </p>
+                                                 <p>
+                                                    4............................
+                                                 </p>
+                                                 <p>
+                                                    5............................
+                                                 </p>
+                                                 <p>
+                                                    6............................
+                                                 </p>
+                                                 <p>
+                                                    7............................
+                                                 </p>
+                                                
+                                                <!-- <div class="image-box-footer">
+                                                    <button pButton type="button" icon="ui-icon-close" title="Close" label="Close" class="remove-btn orange-btn" style="margin-right:4px;"></button>
+                                                    <button pButton type="button" icon="ui-icon-add" title="New" label="New" class="message-btn secondary-btn"></button>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+
+
+                        
+                        <div class="ui-g-10">
+                                <input type="checkbox" name="vehicle1" value="Bike">ยอมรับเงื่อนไขการใช้งาน<br>
+                        </div>
+                        <div class="ui-g-10">
+                            <div class="form-group">     
+                                    <a  [routerLink]="['/auth/signup']" ><button class="btn btn-primary" >ตกลง</button></a>
+                                    <a class="btn btn-link"   href="assets/pages/welcome.html" >ยกเลิก</a>
+                            </div>
+                        </div>
+                    </p-fieldset>
+
+
+                </div>
+
+
+
+
+                </form>
+          
+        </div>
+    </div>
+</div>
+<!-- credits -->
+<div class="text-center">
+    <!-- <p>
+        <a href="http://jasonwatmore.com/post/2018/05/16/angular-6-user-registration-and-login-example-tutorial" target="_top">Angular
+            6 User Registration and Login Example & Tutorial</a>
+    </p> -->
+</div>

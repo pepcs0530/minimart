@@ -1,0 +1,6 @@
+<app-mmt1i020-search #mmt1i020Search *ngIf="deptPk == null else supplier" [fwMsg]="fwMsg" (onOpenSaveComponent)="mmt1i020Save.onOpenSaveComponent($event)"></app-mmt1i020-search>
+<ng-template #supplier>
+    <app-supplier></app-supplier>
+</ng-template>
+<app-mmt1i020-save #mmt1i020Save [fwMsg]="fwMsg" (onSaveSuccess)="mmt1i020Search.onSaveSuccess($event)"></app-mmt1i020-save>
+<fw-message #fwMsg></fw-message>

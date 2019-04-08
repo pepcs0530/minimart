@@ -1,0 +1,111 @@
+<div class="container">
+        <form [formGroup]="searchForm">
+                <p-fieldset legend="ค้นหา">
+                        <div class="searchPanel">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 font-right">ผู้ส่งออก </div>
+                                        <div class="ui-g-12 ui-md-8"><input type="text" numberOnly formControlName="supSerial"
+                                                         maxlength="6" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">PartNo </div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input  type="text" formControlName="partNo" /></div>
+                                        
+                                        <div class="ui-g-12 ui-md-4 ui-lg-2 font-right">พิกัดศุลกากร </div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-2"><input  type="text" formControlName="pplTariffNo" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 font-right">ชื่อสินค้า (ภาษาอังกฤษ)</div>
+                                        <div class="ui-g-12 ui-md-8"><input type="text" formControlName="partNameEng" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 font-right">(ภาษาไทย)</div>
+                                        <div class="ui-g-12 ui-md-8"><input type="text" formControlName="partNameTh"/></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4"></div>
+                                        <div class="ui-g-12 ui-md-8">
+                                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                                <p-button icon="ui-icon-search" label="ค้นหา" (click)="onSearchProduct()">
+                                                </p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-clear" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="ui-g-12" style="text-align: right">
+                                <p-button icon="ui-icon-save" label="นำเข้าข้อมูล" (click)="openUploadPage()"></p-button>
+                                        &nbsp;
+                                <p-button icon="ui-icon-add-circle-outline" label="เพิ่ม" (click)="onAddProduct()"></p-button>
+                                &nbsp;
+                                <p-button icon="ui-icon-delete" label="ลบ" (click)="onDeleteProduct()"></p-button>
+                        </div>
+                        <div class="ui-g-12">
+                                <p-table #tb [columns]="cols" [value]="tbProductList" [lazy]="true" dataKey="prodSerial"
+                                        (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]"
+                                        [totalRecords]="totalRecords" [loading]="loading" [(selection)]="tbProductSelectList"
+                                        [responsive]="true" paginatorPosition="top">
+                                        <ng-template pTemplate="caption">
+                                                ตารางข้อมูลสินค้า (Product)
+                                        </ng-template>
+
+                                        <ng-template pTemplate="header">
+                                                <tr>
+                                                        <th style="width: 3em;">
+                                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                        </th>
+                                                        <th style="width: 5%;">Ref</th>
+                                                        <th style="width: 7%;">รหัส
+                                                                <br/>ผู้ส่งออก</th>
+                                                        <th style="width: 7%;">PartNo</th>
+                                                        <th style="width: 7%;">ประเภท</th>
+                                                        <th style="width: 7%;">ชื่อสินค้า
+                                                                <br/>(อังกฤษ)</th>
+                                                        <th style="width: 7%;">ชื่อสินค้า
+                                                                <br/>(ไทย)</th>
+                                                        <th style="width: 7%;">หน่วยสินค้า</th>
+                                                        <th style="width: 7%;">น้ำหนัก
+                                                                <br/>ต่อหน่วย</th>
+                                                        <th style="width: 7%;">หน่วย
+                                                                <br/>น้ำหนัก</th>
+                                                        <th style="width: 7%;">พิกัด
+                                                                <br/>ศุลกากร</th>
+                                                        <th style="width: 7%;">รหัสสถิติ</th>
+                                                        <th style="width: 7%;">ลำดับ
+                                                                <br/>อัตราอากร</th>
+                                                        <th style="width: 5%;"></th>
+                                                </tr>
+                                        </ng-template>
+
+                                        <!-- <ng-template pTemplate="header" let-columns>
+                                                <tr>
+                                                        <th style="width: 3em">
+                                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                        </th>
+                                                        <th *ngFor="let col of columns" style="text-align: center">
+                                                                {{col.header}}
+                                                        </th>
+                                                        <th style="width:3em"></th>
+                                                </tr>
+                                        </ng-template> -->
+
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                                <tr [pSelectableRow]="rowData">
+
+                                                        <td>
+                                                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                                        </td>
+                                                        <td *ngFor="let col of columns">
+                                                                {{rowData[col.field]}}
+                                                        </td>
+                                                        <td>
+                                                                <p-button icon="ui-icon-edit" (click)="onEditProduct(rowData)"></p-button>
+                                                        </td>
+                                                </tr>
+                                        </ng-template>
+                                </p-table>
+                        </div>
+                </p-fieldset>
+        </form>
+</div>

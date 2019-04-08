@@ -1,0 +1,87 @@
+<div class="container">
+        <form [formGroup]="searchForm" >
+                <p-fieldset legend="ค้นหา">
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">รหัสจังหวัด : </div>
+                                <div class="ui-g-2 ui-md-2"><input #proviceCode type="text" formControlName="provinceId" style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">ชื่อจังหวัด: </div>
+                                <div class="ui-g-2 ui-md-4"><input #proviceCode type="text" formControlName="provinceName" style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">ชื่อภาค : </div>
+                                <div class="ui-g-2 ui-md-4"><input type="text" formControlName="provinceDesc" #proviceCode style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                        <div class="ui-g-4"></div>
+                        <div class="ui-g-12" style="text-align: center">
+                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                <button icon="ui-icon-search" pButton label="ค้นหา" (click)="onSearch()"> </button>
+                                &nbsp;
+                                <button icon="ui-icon-cancel" pButton label="ยกเลิก" (click)="onCancel()" ></button>
+                        </div>
+
+
+                        <div class="ui-g-12" style="text-align: right">
+                                        <button icon="ui-icon-add-circle" pButton label="เพิ่ม" (click)="onAdd()" ></button>
+                                        &nbsp;
+                                        <button icon="ui-icon-delete" pButton label="ลบ" (click)="onDelete()" ></button>
+                                </div>
+                                <div class="ui-g-12">
+                                        <p-table #tb [columns]="cols" [value]="provinceList" [lazy]="true" dataKey="byrSerial" (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" 
+                                        [rows]="5" [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="provinceSelectList" [responsive]="true">    
+                                                <ng-template pTemplate="caption">                                               
+                                                        ตารางจังหวัด                                                  
+                                              
+                                                </ng-template>
+                
+                                                <ng-template pTemplate="header" let-columns>
+                                                        <tr>
+                                                        <th style="width: 3em;background-color: #03A9F4">
+                                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                        </th>
+                                                        <th *ngFor="let col of columns" style="text-align: center;background-color:#03A9F4">
+                                                                {{col.header}}
+                                                        </th>
+                                                        <th style="width:4em;background-color: #03A9F4"></th>
+                                                        </tr>
+                                                </ng-template>
+                
+                                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                                        <tr [pSelectableRow]="rowData">
+                
+                                                        <td>
+                                                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                                        </td>
+                                                        <td *ngFor="let col of columns">
+                                                                {{rowData[col.field]}}
+                                                        </td>
+                                                        <td >
+                                                                <button pButton icon="ui-icon-edit" (click)="onEdit(rowData)"></button>
+                                                        </td>
+                                                        </tr>
+                                                </ng-template>
+                                        </p-table>
+                                </div>
+                </p-fieldset>
+        </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

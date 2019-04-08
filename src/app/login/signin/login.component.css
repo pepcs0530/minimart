@@ -1,0 +1,4 @@
+/* @import url("../../assets/pages/primeng.min.css"); */
+.login-body-bg{
+    background-image: url("../../../assets/layout/images/login/login-bg.jpg") !important;
+}

@@ -1,0 +1,129 @@
+
+   
+   <ng-container class="report-list">
+           รายงาน
+          </ng-container>
+
+          <div class="layout-wrapper">
+                <div class="layout-content layout-report-template">
+                  <div class="card content">
+                    <ng-content></ng-content>                   
+
+                    <p-fieldset legend="เงื่อนไขการออกรายงาน">
+                            <div class="ui-g">
+                                    <div class="ui-g-12">                            
+                                      <div class="ui-g-6">
+                                        ตั้งแต่
+                                        <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                <input id="message2" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                <label for="message2">Zip Code</label>
+                                        </div>
+                                        <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                        งวด
+                                      </div>
+                                   
+                                    </div>
+                
+                                    <div class="ui-g-12">
+                                            
+                                            <div class="ui-g-6">
+                                              ตั้งแต่
+                                              <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                      <input id="message3" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                      <label for="messag3">Zip Code</label>
+                                              </div>
+                                              <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                              งวด
+                                            </div>                         
+                                    </div>   
+                                    
+                                    <div class="ui-g-12">
+                                            
+                                            <div class="ui-g-6">
+                                              ตั้งแต่
+                                              <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                      <input id="message3" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                      <label for="messag3">Zip Code</label>
+                                              </div>
+                                              <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                              งวด
+                                            </div>                         
+                                    </div>  
+                                    <div class="ui-g-12">
+                                            
+                                            <div class="ui-g-6">
+                                              ตั้งแต่
+                                              <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                      <input id="message3" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                      <label for="messag3">Zip Code</label>
+                                              </div>
+                                              <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                              งวด
+                                            </div>                         
+                                    </div>  
+
+                                    <div class="ui-g-12">
+                                            
+                                            <div class="ui-g-6">
+                                              ตั้งแต่
+                                              <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                      <input id="message3" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                      <label for="messag3">Zip Code</label>
+                                              </div>
+                                              <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                              งวด
+                                            </div>                         
+                                    </div>  
+                                    <div class="ui-g-12">
+                                            
+                                            <div class="ui-g-6">
+                                              ตั้งแต่
+                                              <div class="ui-g-12" [ngStyle]="{display:'none'}">
+                                                      <input id="message3" type="text" [(ngModel)]="zipcode" pInputText disabled/>
+                                                      <label for="messag3">Zip Code</label>
+                                              </div>
+                                              <input type="text"  style="width:50%" pInputText maxlength="4" >
+                                              งวด
+                                            </div>                         
+                                    </div>  
+
+                            </div>
+
+
+                            
+                       
+                      </p-fieldset>
+                      <br>
+                      <div style="text-align: center">
+                        <button icon="fa fa-print" pButton label="พิมพ์รายงาน" onclick="print()" ></button> &nbsp;
+                        <button icon="pi pi-times" pButton label="ยกเลิก" ></button>
+                      </div>
+                  </div>
+                  <div class="card report-panel">                                         
+                      <label for="textarea">ประเภทรายงาน</label>
+                      <br>
+                      <div class="report-list-item" *ngFor="let report of reportTypeList">
+                           <p-radioButton [label]="report.label" [value]="report.value" [name]="'reportType'" [(ngModel)]="selectedReport"></p-radioButton>
+                      </div> 
+                  </div>
+                 </div>               
+        </div>
+
+
+        <!-- <form [formGroup]="registerForm1" >
+                        <div class="card report-panel">
+                        <label for="textarea">ประเภทรายงาน</label>
+                        <mr-lov lovName="reportTypeA"   formControlName ="projObj"  pTooltip="ประเภทรายงาน" tooltipPosition="bottom"></mr-lov>
+                </div> 
+        </form> -->
+
+
+
+
+
+
+
+
+
+
+

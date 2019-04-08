@@ -1,0 +1,71 @@
+
+
+<div class="login-body login-body-bg" style="margin:-17px -17px -24px -77px;">
+    <div class="login-panel ui-fluid">
+        <div class="login-panel-header">
+            <img src="../../assets/layout/images/logo-slim.png">
+        </div>
+        
+       
+        <div class="login-panel-content">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h1>เข้าสู่ระบบ</h1>
+                </div>
+                <!-- <div class="ui-g-12">
+                        <label>รหัสผู้ใช้</label>
+                        <input type="text" autocomplete="off" class="ui-inputtext ui-corner-all ui-widget" [(ngModel)]="username">
+                       
+                    
+                </div> -->
+
+                
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input id="username" type="text"  [(ngModel)]="username" pInputText/>
+                        <label>รหัสผู้ใช้</label>
+                    </span>
+                </div>
+
+
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input id="password" type="password"  [(ngModel)]="password" pInputText/>
+                        <label>รหัสผ่าน</label>
+                    </span>
+                </div>
+                      <!-- <div *ngIf="captchaError" class="error">Recaptcha not verified.</div> -->
+                <div class="ui-g-12">
+                    <button type="button" class="ui-button ui-widget ui-corner-all ui-button-text-icon-left" (click)="onSubmit()">
+                        <span class="ui-button-icon-left fa ui-icon-person"></span>
+                        <span class="ui-button-text">เข้าสู่ระบบ</span>
+                    </button>
+                </div>
+                <div class="ui-g-12">
+                    <a href="#/auth/changepassword">เปลี่ยนรหัสผ่าน</a> หรือ <a href="#/auth/forgetpassword">ลืมรหัสผ่าน?</a>
+                </div>
+
+
+                    <p-dialog [(visible)]="visibleError" (onHide)="clearMessage()">
+                        <p-header>ข้อความจากระบบ</p-header>
+                        <p-messages [(value)]="msgs" [closable]="false"  ></p-messages>
+                   </p-dialog>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../../assets/pages/jquery.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript">
+        $(function () {
+            $('input').on('blur', function (e) {
+                var el = $(this);
+                if (el.val() != '')
+                    el.addClass('ui-state-filled');
+                else
+                    el.removeClass('ui-state-filled');
+            });
+        });
+    </script>
+</div>

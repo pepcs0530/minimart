@@ -1,0 +1,6 @@
+<label [ngStyle]="width ? {'width': width } : {}" [ngClass]="width ? '' : 'inline-label-width'">
+  <strong [ngStyle]="{'color': !isValid?.valid ? invalidColor : color, 'float': alignment }">
+    {{ text }}
+    <span *ngIf="!isValid?.valid && asterisk">*</span>
+  </strong>
+</label>

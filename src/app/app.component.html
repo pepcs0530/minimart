@@ -1,0 +1,21 @@
+<div class="layout-wrapper" (click)="onWrapperClick()" 
+    [ngClass]="{'layout-wrapper-static': layoutMode === 'static',
+                'layout-wrapper-active': mobileMenuActive,
+                'layout-menu-horizontal': layoutMode === 'horizontal',
+                'layout-rtl': isRTL}">
+    <app-menu [reset]="resetMenu" *ngIf="authen.isAuthenticated()"></app-menu>
+
+    <div class="layout-main">
+        <app-topbar #appTopbar *ngIf="authen.isAuthenticated()"></app-topbar>
+
+        <!-- <app-breadcrumb *ngIf="authen.isAuthenticated()"></app-breadcrumb> -->
+        <fw-breadcrumb *ngIf="authen.isAuthenticated()"></fw-breadcrumb>
+
+        <div class="layout-content">
+            <router-outlet></router-outlet>
+        </div>
+
+        <app-footer *ngIf="authen.isAuthenticated()"></app-footer>
+        <div class="layout-main-mask" *ngIf="mobileMenuActive"></div>
+    </div> 
+</div>

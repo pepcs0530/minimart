@@ -1,0 +1,754 @@
+<app-fw-message #fwMessage></app-fw-message>
+<div class="container">
+  <form [formGroup]="detailForm" >
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <p-fieldset legend="รายละเอียด">
+
+          <ng-container [ngSwitch]="userType">
+
+            <!--  START สิทธิ์ admin  --> 
+            <ng-container *ngSwitchCase="'A'">
+              <div class="ui-g">
+                <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+                    <p-steps #steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+                </div>
+                <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+                  <!-- index : {{activeIndex}} | jobId : {{status}} | jobStep : {{jobStep}}  -->
+                  <hr/>
+                </div>
+              </div>
+
+              <ng-container *ngIf="activeIndex != 3">
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">สถานะข้อมูล : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="jobName" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ส่งออก : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="supplier" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ซื้อ : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="consignee" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <!-- <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                  </div> -->
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PORT :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="areaCode" size="15" readonly="true"/>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DATE :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="dvDate" size="18" readonly="true"/>
+                  </div>
+                </div>
+                
+              </ng-container>
+
+              <!-- START activeIndex = 0  --> 
+              <ng-container *ngIf="activeIndex == 0">
+                <ng-container>
+                    <div class="ui-g">
+                      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                        <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                      </div>
+                      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DELIVERY DATE :</div>
+                      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                        <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/>
+                      </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="jobStep == 1">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right" >
+                    <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="ยืนยันข้อมูลฉบับ DRAFT" (click)="confirmCheckDraft()"></button>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" >
+                    <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูล" (click)="cancelCheckDraft()"></button>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <!-- END activeIndex = 0  -->
+              <!-- START activeIndex = 1  --> 
+              <ng-container *ngIf="activeIndex == 1">
+                  <div class="ui-g" [ngStyle]="editAwbFlag ? {'background-color' : ''} : ''">
+                    <!-- <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PORT :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="areaCode" size="15" readonly="true"/>
+                    </div> -->
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <!-- <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/> -->
+                      <ng-container *ngIf="editAwbFlag else invoiceNo">
+                        <input type="text" pInputText formControlName="invoiceNo" size="15"/>
+                      </ng-container>
+                      <ng-template #invoiceNo>
+                          <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                      </ng-template>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DELIVERY DATE :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <!-- <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/> -->
+                      <ng-container *ngIf="editAwbFlag else controlCode">
+                        <input type="text" pInputText formControlName="controlCode" size="15"/>
+                      </ng-container>
+                      <ng-template #controlCode>
+                          <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="ui-g" [ngStyle]="editAwbFlag ? {'background-color' : ''} : ''">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">MASTER AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <ng-container *ngIf="editAwbFlag else masterAwb">
+                          <input type="text" pInputText formControlName="masterAwb" size="15"/>
+                      </ng-container>
+                      <ng-template #masterAwb>
+                          <input type="text" pInputText formControlName="masterAwb" size="15" readonly="true"/>
+                      </ng-template>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">HOUSE AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                      <ng-container *ngIf="editAwbFlag else houseAwb">
+                          <input type="text" pInputText formControlName="houseAwb" size="15" />
+                      </ng-container>
+                      <ng-template #houseAwb>
+                          <input type="text" pInputText formControlName="houseAwb" size="15" readonly="true"/>
+                      </ng-template>
+                      &nbsp; <button *ngIf="!editAwbFlag" class="ui-button-raised ui-button-info" icon="ui-icon-edit" pButton label="แก้ไข" (click)="editAwb()"></button>
+                      <button *ngIf="editAwbFlag" class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="แก้ไข" (click)="confirmEditAwb()"></button> &nbsp;
+                      <button *ngIf="editAwbFlag" class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="แก้ไข" (click)="cancelEditAwb()"></button>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center" >
+                    <div class="ui-g-12" style="text-align: left">
+                      <button class="ui-button-raised ui-button-info" icon="ui-icon-attach-file" iconPos="right" pButton label="แบบแนบท้ายประมวลฯ" (click)="attachedFiles()"></button>
+                    </div>
+                    <div class="ui-g-12" style="text-align: -webkit-center;">  
+                      <p-table #invOrderFilecftable [columns]="invOrderFilecfCols" [value]="invOrderFilecfDraftList" [lazy]="false" dataKey="filecfSerial" 
+                      (onLazyLoad)="loadCarsLazy($event)" [paginator]="false" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                      [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="invOrderFilecfDraftSelectList" 
+                      [responsive]="true" paginatorPosition="top" >    
+                        <ng-template pTemplate="caption">
+                                ตรวจสอบข้อมูล
+                        </ng-template>
+    
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th style="width: 5em">
+                              No.
+                            </th>
+                            <th *ngFor="let col of columns" [width]="col.width ? col.width : ''" style="text-align: center">
+                              {{col.header}}
+                            </th>
+                          </tr>
+                        </ng-template>
+      
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                          <tr [pSelectableRow]="rowData">
+                            <td style="text-align: center">
+                              {{rowIndex + 1}}
+                            </td>
+                            <td *ngFor="let col of columns" [ngStyle]="col.style">
+                              <ng-container [ngSwitch]="col.field">
+                                <ng-container *ngSwitchCase="'filecfDate'">
+                                  <ng-container>
+                                    {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                                  </ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'exportButton'">
+                                  <ng-container *ngIf="rowData['fileId'] == 4 else exportBtn">
+                                      <button *ngIf="rowData['fileId'] == 4" icon="ui-icon-file-upload" pButton (click)="uploadFilecf(rowData)"></button>
+                                      <button *ngIf="rowData['filecfName1'] != null" icon="ui-icon-file-download" pButton (click)="exportFilecf(rowData)"></button>
+                                  </ng-container>
+                                  <ng-template #exportBtn>
+                                    <button *ngIf="true" icon="ui-icon-file-download" pButton (click)="exportFilecf(rowData)"></button>
+                                  </ng-template>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                  {{ rowData[col.field] }}
+                                </ng-container>                                                                            
+                              </ng-container>
+                            </td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="columns.length+1">
+                                    ไม่พบข้อมูล
+                                </td>
+                            </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                  <ng-container *ngIf="status == '2'">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right" >
+                      <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="ส่งข้อมูลฉบับ DRAFT" (click)="sendDataDraft()"></button>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" >
+                      <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูล" (click)="cancel(93)"></button>
+                    </div>
+                  </ng-container>
+              </ng-container>
+              <!-- END activeIndex = 1  --> 
+              <!-- START activeIndex = 2  --> 
+              <ng-container *ngIf="activeIndex == 2">
+                <ng-container>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DELIVERY DATE :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">MASTER AWB :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <ng-container *ngIf="jobStep == 2 else masterAwb">
+                        <input type="text" pInputText formControlName="masterAwb" size="15" />
+                    </ng-container>
+                    <ng-template #masterAwb>
+                        <input type="text" pInputText formControlName="masterAwb" size="15" readonly="true"/>
+                    </ng-template>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">HOUSE AWB :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <ng-container *ngIf="jobStep == 2 else houseAwb">
+                        <input type="text" pInputText formControlName="houseAwb" size="15" />
+                    </ng-container>
+                    <ng-template #houseAwb>
+                        <input type="text" pInputText formControlName="houseAwb" size="15" readonly="true"/>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center" >
+                  <div class="ui-g-12" style="text-align: -webkit-center;">  
+                    <p-table #invOrderFilecftable [columns]="invOrderFilecfCols" [value]="invOrderFilecfDraftList" [lazy]="false" dataKey="filecfSerial" 
+                    (onLazyLoad)="loadCarsLazy($event)" [paginator]="false" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                    [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="invOrderFilecfDraftSelectList" 
+                    [responsive]="true" paginatorPosition="top" >    
+                      <ng-template pTemplate="caption">
+                              ตรวจสอบข้อมูล
+                      </ng-template>
+  
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th style="width: 5em">
+                            No.
+                          </th>
+                          <th *ngFor="let col of columns" [width]="col.width ? col.width : ''" style="text-align: center">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+    
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                        <tr [pSelectableRow]="rowData">
+                          <td style="text-align: center">
+                            {{rowIndex + 1}}
+                          </td>
+                          <td *ngFor="let col of columns" [ngStyle]="col.style">
+                            <ng-container [ngSwitch]="col.field">
+                              <ng-container *ngSwitchCase="'filecfDate'">
+                                <ng-container>
+                                  {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngSwitchCase="'exportButton'">
+                                <ng-container>
+                                    <button *ngIf="true" icon="ui-icon-file-download" pButton (click)="exportFilecf(rowData)"></button>
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngSwitchDefault>
+                                {{ rowData[col.field] }}
+                              </ng-container>                                                                            
+                            </ng-container>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage" let-columns>
+                          <tr>
+                              <td [attr.colspan]="columns.length+1">
+                                  ไม่พบข้อมูล
+                              </td>
+                          </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <ng-container *ngIf="status == '4' && jobStep == 3">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right" >
+                    <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="ยืนยันข้อมูลฉบับ DRAFT" (click)="confirmDataDraft()"></button>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" >
+                    <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูล" (click)="cancel(94)"></button>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <!-- END activeIndex = 2  --> 
+              <!-- START activeIndex = 3  --> 
+              <ng-container *ngIf="activeIndex == 3">
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">สถานะข้อมูล : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="jobName" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ส่งออก : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="supplier" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ซื้อ : </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                    <input type="text" pInputText formControlName="consignee" size="50" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <!-- <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                  </div> -->
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PORT :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="areaCode" size="15" readonly="true"/>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DATE :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="dvDate" size="18" readonly="true"/>
+                  </div>
+                </div>
+                <div class="ui-g" [ngStyle]="editAwbFlag ? {'background-color' : ''} : ''">
+                  <!-- <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PORT :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <input type="text" pInputText formControlName="areaCode" size="15" readonly="true"/>
+                  </div> -->
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <!-- <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/> -->
+                    <ng-container *ngIf="editAwbFlag else invoiceNo">
+                      <input type="text" pInputText formControlName="invoiceNo" size="15"/>
+                    </ng-container>
+                    <ng-template #invoiceNo>
+                        <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                    </ng-template>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DELIVERY DATE :</div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                    <!-- <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/> -->
+                    <ng-container *ngIf="editAwbFlag else controlCode">
+                      <input type="text" pInputText formControlName="controlCode" size="15"/>
+                    </ng-container>
+                    <ng-template #controlCode>
+                        <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="ui-g" [ngStyle]="editAwbFlag ? {'background-color' : ''} : ''">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">MASTER AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <ng-container *ngIf="editAwbFlag else masterAwb">
+                          <input type="text" pInputText formControlName="masterAwb" size="15"/>
+                      </ng-container>
+                      <ng-template #masterAwb>
+                          <input type="text" pInputText formControlName="masterAwb" size="15" readonly="true"/>
+                      </ng-template>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">HOUSE AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                      <ng-container *ngIf="editAwbFlag else houseAwb">
+                          <input type="text" pInputText formControlName="houseAwb" size="15" />
+                      </ng-container>
+                      <ng-template #houseAwb>
+                          <input type="text" pInputText formControlName="houseAwb" size="15" readonly="true"/>
+                      </ng-template>
+                      &nbsp; <button *ngIf="!editAwbFlag" class="ui-button-raised ui-button-info" icon="ui-icon-edit" pButton label="แก้ไข" (click)="editAwb()"></button>
+                      <button *ngIf="editAwbFlag" class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="แก้ไข" (click)="confirmEditAwb()"></button> &nbsp;
+                      <button *ngIf="editAwbFlag" class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="แก้ไข" (click)="cancelEditAwb()"></button>
+                    </div>
+                  </div>
+                <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center" >
+                  <div class="ui-g-12" style="text-align: -webkit-center;">  
+                    <p-table #invOrderFilecftable [columns]="invOrderFilecfCols" [value]="invOrderFilecfRealList" [lazy]="false" dataKey="filecfSerial" 
+                    (onLazyLoad)="loadCarsLazy($event)" [paginator]="false" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                    [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="invOrderFilecfRealSelectList" 
+                    [responsive]="true" paginatorPosition="top" >    
+                      <ng-template pTemplate="caption">
+                              ตรวจสอบข้อมูล
+                      </ng-template>
+  
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th style="width: 5em">
+                            No.
+                          </th>
+                          <th *ngFor="let col of columns" [width]="col.width ? col.width : ''" style="text-align: center">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+    
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                        <tr [pSelectableRow]="rowData">
+                          <td style="text-align: center">
+                            {{rowIndex + 1}}
+                          </td>
+                          <td *ngFor="let col of columns" [ngStyle]="col.style">
+                            <ng-container [ngSwitch]="col.field">
+                              <ng-container *ngSwitchCase="'filecfDate'">
+                                <ng-container>
+                                  {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngSwitchCase="'exportButton'">
+                                <ng-container>
+                                    <button *ngIf="true" icon="ui-icon-file-download" pButton (click)="exportFilecf(rowData)"></button>
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngSwitchDefault>
+                                {{ rowData[col.field] }}
+                              </ng-container>                                                                            
+                            </ng-container>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage" let-columns>
+                          <tr>
+                              <td [attr.colspan]="columns.length+1">
+                                  ไม่พบข้อมูล
+                              </td>
+                          </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <ng-container *ngIf="status == '4'">
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right" >
+                    <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="ส่งข้อมูลฉบับจริง" (click)="sendDataReal()"></button>
+                  </div>
+                  <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" >
+                    <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูล" (click)="cancel(95)"></button>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <!-- END activeIndex = 3  --> 
+            </ng-container>
+            <!--  END สิทธิ์ admin  --> 
+
+            <!--  START สิทธิ์ user  --> 
+            <ng-container *ngSwitchCase="'T'">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">สถานะข้อมูล : </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                      <input type="text" pInputText formControlName="jobName" size="50" readonly="true"/>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ส่งออก : </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                      <input type="text" pInputText formControlName="supplier" size="50" readonly="true"/>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ซื้อ : </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                      <input type="text" pInputText formControlName="consignee" size="50" readonly="true"/>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="invoiceNo" size="15" readonly="true"/>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DATE :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="dvDate" size="18" readonly="true"/>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PORT :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="areaCode" size="15" readonly="true"/>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">DELIVERY DATE :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="controlCode" size="15" readonly="true"/>
+                    </div>
+                  </div>
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">MASTER AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="masterAwb" size="15" readonly="true"/>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-1 label-right">HOUSE AWB :</div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+                      <input type="text" pInputText formControlName="houseAwb" size="15" readonly="true"/>
+                    </div>
+                  </div>
+                  <ng-container [ngSwitch]="status">
+                    <ng-container *ngSwitchCase="'1'">
+                      <div class="ui-g">
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center">
+                            <button icon="ui-icon-file-download" pButton label="EXPORT INVOICE DATA" (click)="exportData()"></button>
+                          </div>
+                          <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right">
+                            <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="CONFIRM ส่งข้อมูล" (click)="confirm()"></button>
+                          </div>
+                          <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6">
+                            <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูล" (click)="cancel(92)"></button>
+                          </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'3'">
+                      <div class="ui-g">
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center">
+                          <div class="ui-g-12" style="text-align: -webkit-center;">
+                            <p-table #invOrderFilecftable [columns]="invOrderFilecfCols" [value]="invOrderFilecfList" [lazy]="false"
+                              dataKey="filecfSerial" (onLazyLoad)="loadCarsLazy($event)" [paginator]="false" [rows]="5"
+                              [rowsPerPageOptions]="[5,10,20,30]" [totalRecords]="totalRecords" [loading]="loading"
+                              [(selection)]="invOrderFilecfSelectList" [responsive]="true" paginatorPosition="top">
+                              <ng-template pTemplate="caption">
+                                ตรวจสอบข้อมูล
+                              </ng-template>
+                    
+                              <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                  <th style="width: 5em">
+                                    No.
+                                  </th>
+                                  <th *ngFor="let col of columns" [width]="col.width ? col.width : ''" style="text-align: center">
+                                    {{col.header}}
+                                  </th>
+                                </tr>
+                              </ng-template>
+                    
+                              <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                  <td style="text-align: center">
+                                    {{rowIndex + 1}}
+                                  </td>
+                                  <td *ngFor="let col of columns" [ngStyle]="col.style">
+                                    <ng-container [ngSwitch]="col.field">
+                                      <ng-container *ngSwitchCase="'filecfDate'">
+                                        <ng-container>
+                                          {{ rowData[col.field] | dateThaiFormatDDMMYYYY}}
+                                        </ng-container>
+                                      </ng-container>
+                                      <ng-container *ngSwitchCase="'exportButton'">
+                                        <ng-container>
+                                          <button *ngIf="true" icon="ui-icon-file-download" pButton
+                                            (click)="exportFilecf(rowData)"></button>
+                                        </ng-container>
+                                      </ng-container>
+                                      <ng-container *ngSwitchDefault>
+                                        {{ rowData[col.field] }}
+                                      </ng-container>
+                                    </ng-container>
+                                  </td>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                  <td [attr.colspan]="columns.length+1">
+                                    ไม่พบข้อมูล
+                                  </td>
+                                </tr>
+                              </ng-template>
+                            </p-table>
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center">
+                          <hr />
+                        </div>
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right">
+                          <button class="ui-button-raised ui-button-success" icon="ui-icon-check" pButton label="CONFIRM ข้อมูลฉบับ DRAFT" (click)="confirmDraft()"></button>
+                        </div>
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6">
+                          <button class="ui-button-raised ui-button-danger" icon="ui-icon-clear" pButton label="CANCEL ข้อมูลฉบับ DRAFT" (click)="cancel(93)"></button>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      <div class="ui-g">
+                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12 label-center">
+                          <button icon="ui-icon-file-download" pButton label="EXPORT INVOICE DATA" (click)="exportData()"></button>
+                        </div>
+                      </div>
+                    </ng-container> 
+                  </ng-container>
+                  
+            </ng-container>
+            <!--  END สิทธิ์ user  --> 
+
+          </ng-container>
+
+          <!--  START สิทธิ์ทั้ง admin / user  --> 
+          <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="userType == 'T' || activeIndex == 0">
+            <!-- <div class="ui-g-12" style="text-align: right">
+              <button icon="ui-icon-add-circle" pButton label="เพิ่ม" (click)="toAddPage()"></button>
+              &nbsp;
+              <button icon="ui-icon-delete" pButton label="ลบ"></button>
+            </div> -->
+            <div class="ui-g-12" style="text-align: -webkit-center;">
+              <p-table #tb [columns]="cols" [value]="invOrderGroupList" [lazy]="true" dataKey="impSerial"
+                (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]"
+                [totalRecords]="totalRecords" [loading]="loading" [(selection)]="invOrderGroupSelectList" [responsive]="true"
+                paginatorPosition="top" [scrollable]="true" [style]="{width:'78em'}">
+                <ng-template pTemplate="caption">
+                  ตารางข้อมูลการนำเข้าข้อมูลการส่งสินค้า
+                </ng-template>
+          
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col style="width: 5em">
+                    <col *ngFor="let col of columns" style="width:250px">
+                    <!-- <col style="width:4em"> -->
+                  </colgroup>
+                </ng-template>
+          
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 5em">
+                      <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                      No.
+                    </th>
+                    <th *ngFor="let col of columns" style="text-align: center">
+                      {{col.header}}
+                    </th>
+                    <!-- <th style="width:4em"></th> -->
+                  </tr>
+                </ng-template>
+          
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                  <tr [pSelectableRow]="rowData">
+                    <td style="text-align: center">
+                      <!-- <p-tableCheckbox [value]="rowData"></p-tableCheckbox> -->
+                      {{rowIndex + 1}}
+                    </td>
+                    <td *ngFor="let col of columns" [ngStyle]="col.style">
+                      <ng-container [ngSwitch]="col.field">
+                        <ng-container *ngSwitchCase="'deliveryDate'">
+                          <ng-container>
+                            {{ rowData[col.field] | dateThaiFormatDDMMYYYY}}
+                          </ng-container>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'updateDate'">
+                          <ng-container>
+                            {{ rowData[col.field] | dateThaiFormatDDMMYYYY}}
+                          </ng-container>
+                        </ng-container>
+                        <!-- <ng-container *ngSwitchCase="'userStartDate'">
+                                        <ng-container>
+                                          {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                                        </ng-container>
+                                      </ng-container> 
+                                      <ng-container *ngSwitchCase="'userEndDate'">
+                                        <ng-container>
+                                          {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                                        </ng-container>
+                                      </ng-container> 
+                                      <ng-container *ngSwitchCase="'userSts'">
+                                        <ng-container>
+                                          {{ rowData[col.field] | fwUserSts}} 
+                                        </ng-container>
+                                      </ng-container>  -->
+                        <ng-container *ngSwitchDefault>
+                          {{ rowData[col.field] }}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                    <!-- <td>
+                      <p-button icon="ui-icon-edit" (click)="selectRowData(rowData)"></p-button>
+                    </td> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length+1">
+                      ไม่พบข้อมูล
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+          <!--  END สิทธิ์ทั้ง admin / user  --> 
+
+        </p-fieldset>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-dialog [(visible)]="visibleCancelDialog" [modal]="true" [resizable]="false"
+  [focusOnShow]="false" [contentStyle]="{width: '50vw', height: '50vh', overflow: 'visible'}">
+  <form [formGroup]="cancelForm">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">ระบุเหตุผลในการ CANCEL รายการข้อมูลนี้ : </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+        <textarea formControlName="cancelRemark" [rows]="5" [cols]="30" pInputTextarea maxlength="255" autoResize="autoResize"></textarea>
+      </div>
+    </div>
+    <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 label-right" >
+          <button icon="ui-icon-check" pButton label="ยืนยัน" (click)="confirmDialog()"></button>
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" >
+          <button icon="ui-icon-clear" pButton label="ยกเลิก" (click)="cancelDialog()"></button>
+        </div>
+      </div>
+  </form>
+</p-dialog>
+
+<app-inv1r010-report #inv1r010Report style="display: none;"></app-inv1r010-report>
+
+<div id="contentToConvert" style="display: none;">
+  {{ htmlString }}
+</div>
+
+<p-dialog [(visible)]="visibleUploadDialog" [modal]="true" [resizable]="false"
+  [focusOnShow]="false" [contentStyle]="{width: '50vw', height: '40vh', overflow: 'visible'}">
+  <p-fileUpload #fileUpload name="file"  url="http://127.0.0.1:8080/mr-framework/api/file/uploadFile" 
+      (onBeforeSend)="onBeforeSend($event)" (onSelect)="onSelect($event)" 
+      (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)" >
+  </p-fileUpload>
+</p-dialog>
+
+<p-dialog [(visible)]="visibleAttachedFileDialog" [modal]="true" [resizable]="false" [focusOnShow]="false"
+  [contentStyle]="{width: '50vw', height: '30vh', overflow: 'visible'}">
+  <div class="ui-g">
+    <div class="ui-g-12" style="text-align: center">
+      <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ขออนุญาตนำของออก" (click)="getReportFile('inv1r010_1')"></button> &nbsp;
+      <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ขออนุญาตนำของเข้า" (click)="getReportFile('inv1r010_2')"></button> &nbsp;
+      <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ขออนุญาตนำสินค้าออก" (click)="getReportFile('inv1r010_3')"></button>
+    </div>
+    <div class="ui-g-12" style="text-align: center">
+        <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ขออนุญาตนำสินค้าเข้า" (click)="getReportFile('inv1r010_4')"></button> &nbsp;
+      <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ผ่านด่านขาเข้า ศบ1" (click)="getReportFile('inv1r010_5')"></button> &nbsp;
+      <button class="ui-button-raised ui-button-info" icon="ui-icon-file-download" iconPos="right" pButton
+        label="ผ่านด่านขาเข้า ศบ2" (click)="getReportFile('inv1r010_6')"></button>
+    </div>
+  </div>
+</p-dialog>

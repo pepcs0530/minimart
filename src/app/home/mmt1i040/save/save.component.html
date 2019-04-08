@@ -1,0 +1,154 @@
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [positionTop]="70" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" (onShow)="onShow()" [responsive]="false" [contentStyle]="{ height: '75vh'}">
+        <form [formGroup]="saveForm">
+                <input type="hidden" formControlName="prodSerial" />
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ผู้ส่งออก</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                <p-dropdown appendTo="body" formControlName="supSerial"  [options]="supSerialList" 
+                                [ngClass]="{'ng-dirty ng-invalid':submitted && saveForm.controls.supSerial.errors}"></p-dropdown>
+                                <div *ngIf="submitted && saveForm.controls.supSerial.errors" style="color:red;font-size:11px;">กรุณาระบุผู้ส่งออก</div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+                <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">PartNo</div>
+                                <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                        <input #proCode type="text" maxlength="50" numberOnly formControlName="partNo" 
+                                                [ngClass]="{'requireField':submitted && saveForm.controls.partNo.errors}" />
+                                                <div *ngIf="submitted && saveForm.controls.partNo.errors" style="color:red;font-size:11px;">กรุณาระบุรหัสผู้ส่งออก</div>        
+                                </div>
+                                <div class="ui-g-12 ui-lg-4"></div>
+                        </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ชื่อสินค้า (ภาษาอังกฤษ)</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="200" formControlName="partNameEng" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.partNameEng.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.partNameEng.errors" style="color:red;font-size:11px;">กรุณาระบุชื่อบริษัทผู้ส่งออก ภาษาอังกฤษ</div>        
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">(ภาษาไทย)</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="200" formControlName="partNameTh" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.partNameTh.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.partNameTh.errors" style="color:red;font-size:11px;">กรุณาระบุชื่อบริษัทผู้ส่งออก ภาษาไทย</div>        
+                        </div>
+                        <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+
+                <p-tabView [activeIndex]="tabIndex" (onChange)="handleChange($event)" [style]="{'width':'60vw'}">
+                        <p-tabPanel header="รายละเอียดสินค้า">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">หน่วยของสินค้า</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="partUnitList" formControlName="partUnit"
+                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">น้ำหนักสินค้าสุทธิ/หน่วย</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="20" formControlName="partWeight" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ประเภท Part สินค้า</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="partFlagList" formControlName="partFlag"
+                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">หน่วยของน้ำหนักสินค้า</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="weightUnitList" formControlName="weightUnit"
+                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save" label="บันทึก" (click)="tbProductSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-clear" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+
+                        <p-tabPanel header="ข้อมูลด้านสิทธิประโยชน์">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">พิกัดศุลกากร</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input #proCode type="text" maxlength="12" formControlName="pplTariffNo" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รหัสสถิติ</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="3" formControlName="pplStaticCode" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ลักษณะการซื้อขายสินค้า</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="prodFlagList" formControlName="prodFlag"
+                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">แสดงข้อมูลในใบขนสินค้า</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="showFlagList" formControlName="showFlag"
+                                                        filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ลำดับอัตราอากร</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="20" numberOnly formControlName="pplTariffSeaq" maxlength="5"/></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ประเภท/รายละเอียด</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="20" numberOnly formControlName="pplTariffDesc" maxlength="9"/></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save" label="บันทึก" (click)="tbProductSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-clear" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+
+                        <p-tabPanel header="ข้อมูลการใช้สิทธิประโยชน์">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">สิทธิประโยชน์</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                                <p-dropdown class="fz-dropdown" [style]="{'width':'100%'}" appendTo="body" [options]="partuseTypeList" formControlName="partUseType"
+                                                filter="true" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">เลขที่</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="20" formControlName="partUseNo1" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">เลขที่ตาราง</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="35" formControlName="partUseNo2" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รายละเอียด1</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="partUseDesc1" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รายละเอียด2</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="partUseDesc2" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">รายละเอียด3</div>
+                                        <div class="ui-g-12 ui-md-8 ui-lg-4"><input type="text" maxlength="70" formControlName="partUseDesc3" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 font-center">
+                                                <p-button icon="ui-icon-save"  label="บันทึก" (click)="tbProductSave()"></p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-clear" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </p-tabPanel>
+                </p-tabView>
+        </form>
+</p-dialog>

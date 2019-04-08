@@ -1,0 +1,175 @@
+<!-- main app container -->
+
+<div class="jumbotron">
+        <div class="container">
+           
+           
+                   
+                   
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+
+                                
+
+                                
+                                   
+
+                                <div class="ui-g-8">
+
+                                        <p-fieldset legend="ลงทะเบียน">
+
+
+                                        <div class="ui-g-12">
+                                            <div class="ui-g-6">
+                                                   
+            
+                                                    <div>
+                                                            <label for="stationId">รหัสสถานี 8 หลัก</label>
+                                                            <input type="text" formControlName="stationId" placeholder="Required"  style="width:50%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                            <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.stationId.errors.required">required</div>
+                                                            </div>
+                                                    </div>
+            
+                                            </div>
+                                            <div class="ui-g-6">
+            
+                                                    <div>
+                                                            <label for="approveId">เลขที่ใบอนุญาต</label>
+                                                            <input type="text" formControlName="approveId" placeholder="Required" style="width:100%"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.approveId.errors }" />
+                                                            <div *ngIf="submitted && f.approveId.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.approveId.errors.required">required</div>
+                                                            </div>
+                                                    </div>
+            
+                                            </div>
+                                        </div>
+
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-6">
+        
+                                                        <div>
+                                                                <label for="stationId">วันที่เริ่มต้นของใบอนุญาต</label>
+                                                                <input type="text" formControlName="stationId" placeholder="Required" style="width:50%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                                <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.stationId.errors.required">required</div>
+                                                                </div>
+                                                                <!-- <p-calendar [(ngModel)]="value" [locale]="es" [shortYearCutoff]="+543"   ></p-calendar> -->
+                                                            
+                                                        </div>
+                                                        
+                                                </div>
+                
+                                                <div class="ui-g-6">
+                
+                                                        <div>
+                                                                <label for="stationId">วันที่สิ้นสุดของใบอนุญาต</label>
+                                                                <input type="text" formControlName="stationId" placeholder="Required"  style="width:50%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                                <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.stationId.errors.required">required</div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-6">
+                                                        <div>
+                                                                <label for="stationId">ชื่อ ผู้มีอำนาจกระทำการผูกพันนิติบุคคล</label>
+                                                                <input type="text" formControlName="stationId" placeholder="Required"  style="width:100%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                                <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.stationId.errors.required">required</div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                
+                                                <div class="ui-g-6">
+                                                    
+                                                        <div>
+                                                                <label for="stationId">นามสกุล ผู้มีอำนาจกระทำการผูกพันนิติบุคคล</label>
+                                                                <input type="text" formControlName="stationId" placeholder="Required" style="width:100%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                                <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.stationId.errors.required">required</div>
+                                                                </div>
+                                                        </div>                
+                                                </div>
+                                        </div>
+
+
+
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-6">
+                                                        <div class="form-group">
+                                                                <label for="stationId">เลขประจำตัวประชาชนของผู้มีอำนาจกระทำการ</label>
+                                                                <input type="text" formControlName="stationId" placeholder="Required"  style="width:50%" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.stationId.errors }" />
+                                                                <div *ngIf="submitted && f.stationId.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.stationId.errors.required">required</div>
+                                                                </div>
+                                                        </div>  
+                                                </div>    
+                                                
+                                                <div class="ui-g-6">
+                                                        <div class="form-group">
+                                                            <label for="email">อีเมล</label>
+                                                            <input type="email" formControlName="email" class="form-control" style="width:100%" placeholder="Required" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                                                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.email.errors.required">required</div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-6">
+                                                        <div class="form-group">
+                                                                <label for="password">รหัสผู้ใช้</label>
+                                                                <input type="password" formControlName="password" class="form-control" style="width:100%" placeholder="Required"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.password.errors.required">required</div>
+                                                                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                                                                </div>
+                                                            </div>
+                                                </div>
+                                                <div class="ui-g-6">
+                                                        <div class="form-group">
+                                                                <label for="password">ยืนยันรหัสผู้ใช้</label>
+                                                                <input type="password" formControlName="password" class="form-control" style="width:100%" placeholder="Required"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                                    <div *ngIf="f.password.errors.required">required</div>
+                                                                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                                                                </div>
+                                                            </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-6">
+                                                        <div class="form-group">
+                                                                        
+                                                                <button [disabled]="loading" class="btn btn-primary">ลงทะเบียน</button>
+                                                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                                                <a [routerLink]="['/auth/signin']" class="btn btn-link">ยกเลิก</a>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                    </p-fieldset>
+                                </div>
+
+
+
+
+                           
+
+
+                         </div>  
+
+
+
+                         <button  pButton label="ค้นหา" (click)="getFwMenu()"> </button>
+                 </form>
+               
+           
+        </div>
+    </div>
+    

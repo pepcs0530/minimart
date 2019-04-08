@@ -1,0 +1,17 @@
+input[type="text"]{width: 100%;}
+.requireField{
+        border:1px solid red;
+}
+.searchPanel{
+        width:450px;
+        margin:auto;
+}
+.font-center {text-align: center}
+
+::ng-deep span.ui-button-text.ui-clickable{padding-left: 5px;}
+@media (max-width: 640px){
+        .searchPanel{width:100%;}
+}
+@media  (min-width: 641px) {
+        .font-right {text-align: right}
+}

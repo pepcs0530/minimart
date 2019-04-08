@@ -1,0 +1,140 @@
+<app-fw-message #fwMessage></app-fw-message>
+<div class="container">
+  <form [formGroup]="uploadForm">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <p-fieldset legend="นำเข้าข้อมูล">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">วันที่นำเข้าข้อมูล :</div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2">
+              <!-- <input type="text" pInputText formControlName="currentDate" size="8"/> -->
+              <!-- <span>{{currentDate}}</span> -->
+              <fw-datepicker formControlName="currentDate" [maxDate]="maxDate" [readonlyInput]="true" class="form-control">
+              </fw-datepicker>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1 ui-lg-offset-0 label-right">เวลา :</div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1">
+              <span>{{currentTime | date:'HH:mm:ss'}}</span>
+            </div>
+          </div>
+          <div class="ui-g">
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ส่งออก<span class="requireLabel">*</span> : </div>
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                <!-- <input type="text" pInputText formControlName="supCodeName" size="50"/> -->
+                <div style="width: max-content" [ngClass]="{'requireField':submitted && uploadForm.controls.tbSupplier.errors}">
+                  <p-autoComplete #lovTbSupplier formControlName="tbSupplier" 
+                    [suggestions]="lovTbSupplierSelectedList" 
+                    field="label" [forceSelection]="true"
+                    (onSelect)="lovTbSupplierSelectedById($event)"
+                    (onClear)="uploadForm.controls['tbSupplier'].setValue(null);"
+                    (completeMethod)="getLovTbSupplierList($event)" 
+                    [dropdown]="true" 
+                    placeholder="<เลือก>" size="50"></p-autoComplete>
+                </div>
+                <div *ngIf="submitted && !!uploadForm.controls.tbSupplier.errors" style="color:red;">กรุณาระบุ</div>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ซื้อ<span class="requireLabel">*</span> : </div>
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                <div style="width: max-content" [ngClass]="{'requireField':submitted && uploadForm.controls.tbConsignee.errors}">
+                  <p-autoComplete #lovTbSupplier formControlName="tbConsignee" 
+                    [suggestions]="lovTbConsigneeSelectedList" 
+                    field="label" [forceSelection]="true"
+                    (onClear)="uploadForm.controls['tbConsignee'].setValue(null);"
+                    (completeMethod)="getLovTbConsigneeList($event)" 
+                    [dropdown]="true" 
+                    placeholder="<เลือก>" size="50"></p-autoComplete>
+                </div>
+                <div *ngIf="submitted && !!uploadForm.controls.tbConsignee.errors" style="color:red;">กรุณาระบุ</div>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">INVOICE NO<span class="requireLabel">*</span> : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4">
+                <div style="width: max-content" [ngClass]="{'requireField':submitted && uploadForm.controls.invoiceNo.errors}">
+                  <input type="text" pInputText formControlName="invoiceNo" size="15" />
+                </div>
+                <div *ngIf="submitted && !!uploadForm.controls.invoiceNo.errors" style="color:red;">กรุณาระบุ</div>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ไฟล์ข้อมูล<span class="requireLabel">*</span> : </div>
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6">
+                <!-- <input type="text" pInputText formControlName="supCodeName" size="35"/> -->
+                <p-fileUpload #fileUpload name="myfile" url="http://127.0.0.1:8080/mr-framework/mmt2i020/api/upload/"
+                (onSelect)="onSelect($event)" (onBeforeSend)="onBeforeSend($event)"  
+                (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)">
+                </p-fileUpload>
+                <img *ngIf="uploading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right"></div>
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <p-button icon="ui-icon-search" label="ค้นหา" (click)="onSearchInvDshortImp()">
+                </p-button>
+                &nbsp;
+                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <!-- <div class="ui-g-12" style="text-align: right">
+                  <button icon="ui-icon-add-circle" pButton label="เพิ่ม" (click)="toAddPage()"></button>
+                  &nbsp;
+                  <button icon="ui-icon-delete" pButton label="ลบ"></button>
+                </div> -->
+                <div class="ui-g-12">
+                  <p-table #tbUpload [columns]="cols" [value]="tbUploadList" [lazy]="true" dataKey="impSerial" 
+                  (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                  [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="tbUploadSelectList" 
+                  [responsive]="true" paginatorPosition="top">    
+                    <ng-template pTemplate="caption">
+                            ตารางข้อมูลการนำเข้าข้อมูลแจ้ง SHORT
+                    </ng-template>
+  
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th style="width: 5em">
+                          ลำดับที่
+                        </th>
+                        <th>ผู้ส่งออก</th>
+                        <th>วันที่นำเข้าข้อมูล</th>
+                        <th>จำนวนรายการ<br/>สมบูรณ์/ไม่สมบูรณ์</th>
+                        <th style="width: 17em;">ชื่อไฟล์</th>
+                        <th>Export รายงานผล</th>
+                      </tr>
+                    </ng-template>
+  
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                      <tr [pSelectableRow]="rowData">
+                        <td [ngStyle]="{'text-align' : 'center'}">
+                          {{rowIndex + 1}}
+                        </td>
+                        <td *ngFor="let col of columns" [ngStyle]="col.style">
+                          <ng-container [ngSwitch]="col.field">                       
+                            <ng-container *ngSwitchDefault>
+                              {{ rowData[col.field] }}
+                            </ng-container>                                                                            
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-template>
+  
+                    <ng-template pTemplate="emptymessage" let-columns>
+                      <tr>
+                          <td [attr.colspan]="columns.length + 1">
+                              ไม่พบข้อมูล
+                          </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+              </div>
+            </div>
+        </p-fieldset>
+      
+      </div>
+    </div>
+  </form>
+</div>

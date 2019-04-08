@@ -1,0 +1,285 @@
+<div class="jumbotron">
+        <div class="container">
+
+<form [formGroup]="saveForm" >
+        <div class="card report-panel">
+                <p-fieldset legend="ค้นหา">
+                
+                <div class="ui-g-12">  
+                    
+                        <div class="ui-g-offset-3 ui-g-6">  
+                                        <div class="ui-g-6">
+                                        รหัสเมนู                        
+                                        <input type="text" formControlName="menuId"  style="width:100%"  >                       
+                                        </div>  
+                                        
+                                        <div class="ui-g-6">
+                                        ชื่อเมนู                        
+                                        <input type="text" formControlName="menuName" style="width:100%"  >                                       
+                                        </div>   
+                
+                                        <div class="ui-g-4">
+                                            <!-- <p-calendar [(ngModel)]="value" [locale]="es" [shortYearCutoff]="+543"   ></p-calendar> -->       
+                                            <label for="startDate"> วันที่ </label>
+                                            <mr-datepicker  formControlName="startDate" placeholder="Required" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" ></mr-datepicker>
+                                            <div *ngIf="submitted && f.startDate.errors" style="color:red;">
+                                                    กรุณาระบุวันที่
+                                            </div>
+                                        <div class="ui-g-12">
+                                        เมนู
+                                        <p-dropdown [options]="menuNameList"    formControlName="menuNameListValue"  filter="true" [autoWidth]="false" ></p-dropdown>
+                                        </div>
+                                        
+                                        </div> 
+                        </div>
+                        
+
+                </div>  
+                      
+                
+                </p-fieldset>
+               
+
+                <div style="text-align: center">
+                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        <button  pButton label="ค้นหา" (click)="searchMenu()"> </button>
+                         &nbsp;
+                        <button pButton label="ยกเลิก" (click)="clearTable()" ></button>
+                        &nbsp;
+                        <button   pButton label="เพิ่ม" (click)="openSaveMenu()" ></button>
+                        &nbsp;
+                        <button   pButton label="ลบ" (click)="deleteMenu()" ></button>
+                </div>
+                &nbsp;
+
+                        <div style="text-align: center">
+                                
+                            <!-- <p-table [columns]="cols" [value]="fwMenu"  dataKey="ebcsFwMenuPk"  [lazy]="true"  (onLazyLoad)="loadCarsLazy($event)" [totalRecords]="totalRecords" [(selection)]="selectedDataMenu"
+                                [paginator]="true" [rows]="3" [responsive]="true"  > -->
+
+
+                            <p-table #tb [columns]="cols" [value]="fwMenu" [lazy]="true" dataKey="fwMenuPk" (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" 
+                            [rows]="3" [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="selectedDataMenu" [responsive]="true">    
+                                <ng-template pTemplate="caption">
+                                       ตารางเมนู
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th style="width: 3em">
+                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                            </th>
+                                            <th *ngFor="let col of columns">
+                                                {{col.header}}
+                                            </th>
+                                            <th style="width:4em"></th>
+                                        </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                        <tr [pSelectableRow]="rowData">
+
+                                            <td>
+                                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                            </td>
+                                            <td *ngFor="let col of columns">
+                                                {{rowData[col.field]}}
+                                            </td>
+                                            <td>
+                                                <button pButton icon="ui-icon-edit" (click)="selectRowMenu(rowData)"></button>
+                                            </td>
+                                        </tr>
+                                </ng-template>
+
+
+                                <ng-template pTemplate="summary">
+                                        <ul>
+                                            <li *ngFor="let car of selectedDataMenu" style="text-align: left">
+                                                {{car.fwMenuPk}}
+                                            </li>
+                                        </ul>
+                                </ng-template>
+                            </p-table>
+                            <button type="button" pButton (click)="update(tb)" label="Reset"></button>
+                        </div>
+
+                      
+                    
+
+               
+               
+                <p-dialog [(visible)]="visibleEdit"   [width]="900" modal="modal" [height]="500" [contentStyle]="{'height': '450px'}">
+                        <p-header>แก้ไขข้อมูล</p-header>
+
+
+
+                        <p-fieldset legend="แก้ไข">
+                        <div class="ui-g-12">                            
+                                <div class="ui-g-offset-3 ui-g-6">  
+                                        <div class="ui-g-6">
+                                       รหัสเมนู                        
+                                       <input type="text" formControlName="menuId"  style="width:100%" pInputText maxlength="200" >                       
+                                       </div>  
+                                       
+                                       <div class="ui-g-6">
+                                       ชื่อเมนู                        
+                                       <input type="text" formControlName="menuName" style="width:100%" pInputText maxlength="200" >                                       
+                                       </div>   
+               
+                                       <div class="ui-g-6">
+                                       วันที่            
+                                       <!-- <p-calendar [(ngModel)]="value" [locale]="es" [shortYearCutoff]="+543"   ></p-calendar> -->       
+                                     
+                                       <mr-datepicker  placeholder="วันที่" formControlName="startDate" ></mr-datepicker>
+                                       
+                                       </div> 
+
+                                       <div class="ui-g-12">
+                                            <button icon="fa fa-print" pButton label="บันทึก" (click)="saveEdit()"> </button>                                       
+                                            <button icon="pi pi-times" pButton label="ยกเลิก"></button>
+                                      </div>  
+                                 </div>
+
+                               
+                            </div>  
+                        </p-fieldset>
+
+
+
+
+                        <!-- <p-messages [(value)]="msgs" [closable]="false"  ></p-messages> -->
+                </p-dialog>
+
+
+
+                <p-dialog [(visible)]="visibleNew"   [width]="900" modal="modal" [height]="500" [contentStyle]="{'height': '450px'}">
+                        
+                    <form [formGroup]="addMenuForm" >
+                    <p-header>เพิ่มเมนู</p-header>
+
+                        <p-fieldset legend="เพิ่มเมนู">
+                        <div class="ui-g-12">  
+                                <div class="ui-g-offset-3 ui-g-6"> 
+
+                                        <div class="ui-g-6">
+                                        ชื่อเมนู                        
+                                        <input type="text" formControlName="menuName"  style="width:50%" pInputText>                       
+                                        </div>  
+                                        
+                                        <div class="ui-g-6">
+                                        รหัสเมนู                        
+                                        <input type="text" formControlName="menuId" style="width:50%" pInputText>                                       
+                                        </div>  
+                
+                                        <div class="ui-g-6">
+                                        วันที่   
+                                        <mr-datepicker  placeholder="วันที่" formControlName="startDate" ></mr-datepicker>
+                                        
+                                        </div> 
+        
+                                        <div class="ui-g-12">
+                                                <button icon="fa fa-print" pButton label="บันทึก" (click)="addSaveMenu()"> </button>                                       
+                                                <button icon="pi pi-times" pButton label="ยกเลิก"></button>
+                                        </div> 
+
+                                </div>                                 
+                        </div>  
+                        </p-fieldset>
+
+
+
+
+                    </form>                       
+                </p-dialog>
+
+
+                <p-dialog [(visible)]="visibleError" (onHide)="clearMessage()">
+                        <p-header>ข้อความจากระบบ</p-header>
+                         <p-messages [(value)]="msgs" [closable]="false"  ></p-messages>
+                </p-dialog>
+
+</div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="ui-g-x" style="text-align: center">
+        aaaaaaaaaaaa111
+</div> 
+
+<div class="ui-g-12" style="text-align: center">
+
+        <div class="ui-g-6" style="text-align: center">
+            bbbbbbb
+        </div> 
+        <div class="ui-g-6" style="text-align: center">
+            cccccccccc
+        </div>
+</div>  -->
+
+<!-- <div class="ui-g-12"  style="text-align: center">
+
+        <div class="ui-g-6" >
+                <div class="ui-g-12" >
+                        <div class="ui-g-6">
+                            6666666666666
+                        </div>
+                        <div class="ui-g-6" style="text-align: right">
+                            7777777777777 
+                        </div>
+                </div>
+        </div> 
+        <div class="ui-g-6" style="text-align: center">
+                <div class="ui-g-12" >
+                        <div class="ui-g-6">
+                          
+                        </div>
+                        <div class="ui-g-6" style="text-align: right">
+                                cccccccccc 
+                        </div>
+                </div>
+            
+        </div>
+</div>  -->
+
+
+</form>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

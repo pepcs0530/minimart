@@ -1,0 +1,5 @@
+<mmt1i040-search #mmt1i040Search [fwMsg]="fwMsg" (onOpenUploadComponent)="mmt1i040Upload.onOpenUploadComponent($event)" (onOpenSaveComponent)="mmt1i040Save.onOpenSaveComponent($event)"></mmt1i040-search>
+<mmt1i040-save #mmt1i040Save [fwMsg]="fwMsg" (onSaveSuccess)="mmt1i040Search.onSaveSuccess($event)"></mmt1i040-save>
+<mmt1i040-upload #mmt1i040Upload [fwMsg]="fwMsg"></mmt1i040-upload>
+
+<fw-message #fwMsg></fw-message>

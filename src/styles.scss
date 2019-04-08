@@ -1,0 +1,241 @@
+
+
+
+
+$errorBorderColor: rgb(255, 92, 92);
+$errorInputBgColor: #f0d1d0;
+$disabledBackground: #ffffff;
+
+.ui-inputtext.ng-dirty.ng-invalid,
+p-dropdown.ng-dirty.ng-invalid label.ui-dropdown-label.ui-inputtext,
+p-autocomplete.ng-dirty.ng-invalid > .ui-autocomplete > .ui-inputtext,
+p-calendar.ng-dirty.ng-invalid > .ui-calendar > .ui-inputtext,
+mr-datepicker.ng-dirty.ng-invalid span.ui-calendar input.ui-inputtext,
+fw-datepicker.ng-dirty.ng-invalid span.ui-calendar input.ui-inputtext,
+p-chips.ng-dirty.ng-invalid > .ui-inputtext,
+p-inputmask.ng-dirty.ng-invalid > .ui-inputtext,
+p-checkbox.ng-dirty.ng-invalid .ui-chkbox-box,
+p-radiobutton.ng-dirty.ng-invalid .ui-radiobutton-box,
+p-inputswitch.ng-dirty.ng-invalid .ui-inputswitch,
+p-listbox.ng-dirty.ng-invalid .ui-inputtext,
+p-multiselect.ng-dirty.ng-invalid > .ui-multiselect,
+p-spinner.ng-dirty.ng-invalid > .ui-inputtext,
+p-selectbutton.ng-dirty.ng-invalid .ui-button,
+p-togglebutton.ng-dirty.ng-invalid .ui-button {
+  background-color: $errorInputBgColor !important;
+}
+
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* You can add global styles to this file, and also import other style files */
+input[type=text], input[type="password"] {
+  border: 2px solid #607D8B !important;
+  border-radius: 4px !important;
+}
+
+textarea, 
+textarea[_ngcontent-c1], textarea[_ngcontent-c2], textarea[_ngcontent-c3], textarea[_ngcontent-c4],
+textarea[_ngcontent-c5], textarea[_ngcontent-c6], textarea[_ngcontent-c7], textarea[_ngcontent-c8],
+textarea[_ngcontent-c9], textarea[_ngcontent-c10], textarea[_ngcontent-c11], textarea[_ngcontent-c12] {
+  border: 2px solid #607D8B !important;
+  border-radius: 4px !important;
+  width: 100% !important;
+}
+
+input[type="text"], input[type="number"], input[type="password"]{
+  width: auto;
+}
+
+.requireField{
+  border:2px solid red;
+}
+
+.requireLabel{
+  color: red;
+}
+
+@media screen and (min-width: 1024px) {
+  .label-center {text-align: center}
+  .label-left {text-align: left}
+  .label-right {text-align: right}
+}
+        
+@media only screen and (min-width: 641px) {
+  .font-right {text-align: right}
+}
+
+.layout-content {
+    min-height: calc(70vh);
+    box-sizing: border-box;
+    &.layout-report-template {
+      display: flex;
+      & .card.content {
+        width: 100%;
+      }
+      & .card.report-panel {
+        margin-left: 8px;
+        width: 300px;
+        height: fit-content;
+      }
+    }
+  }
+
+  .layout-wrapper .footer {
+    height: 100;
+    box-sizing: border-box;
+  }
+
+
+  mr-lov {
+    &.ng-invalid {
+      & p-autocomplete {
+        & input.ui-inputtext {
+          background-color: #f0d1d0 !important;
+        }
+      }
+    }
+  }
+
+  fw-lov {
+    &.ng-invalid {
+      & p-autocomplete {
+        & input.ui-inputtext {
+          background-color: #f0d1d0 !important;
+        }
+      }
+    }
+  }
+
+  mr-lov-table {
+    & div.ui-inputgroup {
+      & > mr-input-chips div.ui-inputtext {
+        & input[type='text' i]:disabled {
+          background-color: $disabledBackground;
+        }
+      }
+    }
+  }
+
+  fw-lov-table {
+    & div.ui-inputgroup {
+      & > mr-input-chips div.ui-inputtext {
+        & input[type='text' i]:disabled {
+          background-color: $disabledBackground;
+        }
+      }
+    }
+  }
+
+  mr-input-chips {
+    & div.ui-inputtext.ui-corner-all {
+      padding: 0 0 0 0.5em;
+    }
+  
+    & input {
+      border: none;
+      outline: none;
+      padding: 4px;
+    }
+  
+    & .ui-chips-token .ui-chips-token-icon {
+      margin-top: 0;
+      transform: translateY(-50%);
+    }
+  }
+
+  fw-input-chips {
+    & div.ui-inputtext.ui-corner-all {
+      padding: 0 0 0 0.5em;
+    }
+  
+    & input {
+      border: none;
+      outline: none;
+      padding: 4px;
+    }
+  
+    & .ui-chips-token .ui-chips-token-icon {
+      margin-top: 0;
+      transform: translateY(-50%);
+    }
+  }
+
+  .lov-autocomplete {
+    position: relative;
+    i {
+      position: absolute;
+      z-index: 99;
+      right: 0;
+      top: 50%;
+      margin-right: 2.5em;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
+  // Colors
+  $bg-color: #bfbfbf;
+  $dot-color: #f2f2f2;
+
+  // Dimensions
+  $dot-size: 20px;
+  $dot-space: 22px;
+
+  .canvas-captcha {
+    border: 1px solid #607d8b;
+    width: 120px;
+    background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color;
+	  background-size: $dot-space $dot-space;
+  }
+
+  body .ui-table .ui-table-thead > tr > th {
+    font-weight: bold;
+    color: black;
+  }
+
+  body .ui-table .ui-table-caption {
+    font-weight: bold;
+  }
+
+  .layout-wrapper {
+    width: 100%;
+  }
+
+  .fz-dropdown {
+    display: grid;
+  }
+
+  .fw-dropdown {
+    display: grid;
+  }
+
+  .fw-textField {
+    border: 2px solid #607D8B;
+    border-radius: 4px;
+  }
+
+  body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+    background-color: mediumseagreen !important;
+  }
+
+  /* .layout-content {
+    padding-top: 5px !important;
+    padding-right: 10px !important;
+    padding-bottom: 24px !important;
+    padding-left: 10px !important;
+  } */
+  input[readonly=true] {
+    background-color:lightgray !important;
+  }
+
+  p-radiobutton > * div[class='ui-radiobutton-box ui-widget ui-state-default ui-state-active ui-state-disabled']  {
+    background-color:lightgray !important;
+  }
+
+  p-radiobutton > * div[class='ui-radiobutton-box ui-widget ui-state-default ui-state-disabled']  {
+    background-color:lightgray !important;
+  }

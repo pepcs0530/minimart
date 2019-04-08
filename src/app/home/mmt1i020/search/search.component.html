@@ -1,0 +1,74 @@
+<div class="container">
+        <form [formGroup]="searchForm">
+                <p-fieldset legend="ค้นหา">
+                        <div class="searchPanel">
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 font-right">รหัสผู้ส่งออก : </div>
+                                        <div class="ui-g-12 ui-md-8"><input type="text" numberOnly formControlName="supCode"
+                                                        #supCode maxlength="6" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4 font-right">ชื่อบริษัทผู้ส่งออก : </div>
+                                        <div class="ui-g-12 ui-md-8"><input #supCode type="text" formControlName="supNameTh" /></div>
+                                </div>
+                                <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4"></div>
+                                        <div class="ui-g-12 ui-md-8">
+                                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                                <p-button icon="ui-icon-search" label="ค้นหา" (click)="onSearchSupplier()">
+                                                </p-button>
+                                                &nbsp;
+                                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="ui-g-12" style="text-align: right">
+                                <p-button icon="ui-icon-add-circle" label="เพิ่ม" (click)="onAddSupplier()"></p-button>
+                                &nbsp;
+                                <p-button icon="ui-icon-delete" label="ลบ" (click)="onDeleteSupplier()"></p-button>
+                        </div>
+                        <div class="ui-g-12">
+                                <p-table #tb [columns]="cols" [value]="tbSupplierList" [lazy]="true" dataKey="supSerial"
+                                        (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="currentRows"
+                                        [totalRecords]="totalRecords" [loading]="loading" [(selection)]="tbSupplierSelectList"
+                                        [responsive]="true" paginatorPosition="top" [rowsPerPageOptions]="[5,10,20,30]">
+                                        <ng-template pTemplate="caption">
+                                                ตารางข้อมูลผู้ส่งออก (Supplier)
+                                                <!-- <p-paginator #p [rows]="currentRows" [totalRecords]="totalRecords" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20,30]"></p-paginator> -->
+                                        </ng-template>
+
+                                        <ng-template pTemplate="header" let-columns>
+                                                <tr>
+                                                        <th style="width: 3em">
+                                                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                        </th>
+                                                        <th *ngFor="let col of columns" style="text-align: center">
+                                                                {{col.header}}
+                                                        </th>
+                                                        <th style="width:4em"></th>
+                                                </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                                <tr [pSelectableRow]="rowData">
+
+                                                        <td>
+                                                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                                        </td>
+                                                        <td *ngFor="let col of columns">
+                                                                {{rowData[col.field]}}
+                                                        </td>
+                                                        <td>
+                                                                <p-button icon="ui-icon-edit" (click)="onEditSupplier(rowData)"></p-button>
+                                                        </td>
+                                                </tr>
+                                        </ng-template>
+                                        <!-- <ng-template pTemplate="summary">
+                                                <p-paginator #p [rows]="currentRows" [totalRecords]="totalRecords" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[5,10,20,30]"></p-paginator>
+                                        </ng-template> -->
+                                </p-table>
+                        </div>
+                </p-fieldset>
+        </form>
+</div>

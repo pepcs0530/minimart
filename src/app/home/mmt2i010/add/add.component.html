@@ -1,0 +1,128 @@
+<app-fw-message #fwMessage></app-fw-message>
+<div class="container">
+  <form [formGroup]="addForm" >
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <p-fieldset legend="นำเข้าข้อมูล">
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">วันที่นำเข้าข้อมูล :</div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-1">
+                <input type="text" pInputText formControlName="currentDate" size="8"/>
+              </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-1 ui-lg-offset-0 label-right">เวลา :</div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-1">
+                <input type="text" pInputText formControlName="currentTime" size="5"/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ส่งออก : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="50"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ผู้ซื้อ : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="50"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">Layout Version : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="25"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ส่งสินค้าไปยังผู้ซื้อ : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="50"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ท่าหรือที่ตรวจปล่อยของ : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="50"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ท่าเรือที่บรรทุกของ : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="50"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ประเทศปลายทาง : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="25"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">สกุลเงิน : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="25"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">PlantCode/Area : </div>
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="supCodeName" size="15"/></div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ไฟล์ข้อมูล : </div>
+              <div class="ui-g-5 ui-sm-12 ui-md-12 ui-lg-4">
+                <input type="text" pInputText formControlName="supCodeName" size="35"/>
+              </div>
+              <div class="ui-g-4 ui-sm-12 ui-md-12 ui-lg-4">
+                <button pButton type="button" label="Browser" (click)="browserClick($event)"></button>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <div class="ui-g-12" style="text-align: right">
+                <button icon="ui-icon-add-circle" pButton label="เพิ่ม" (click)="toAddPage()"></button>
+                &nbsp;
+                <button icon="ui-icon-delete" pButton label="ลบ"></button>
+              </div>
+              <div class="ui-g-12">
+                <p-table #tb [columns]="cols" [value]="invDorderImpList" [lazy]="true" dataKey="impSerial" 
+                (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                [totalRecords]="totalRecords"  [loading]="loading" [(selection)]="invDorderImpSelectList" 
+                [responsive]="true" paginatorPosition="top">    
+                  <ng-template pTemplate="caption">
+                          ตารางข้อมูลการนำเข้าข้อมูลการส่งสินค้า
+                  </ng-template>
+
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                    <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns" style="text-align: center">
+                            {{col.header}}
+                    </th>
+                    <th style="width:4em"></th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                      <td>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                      </td>
+                      <td *ngFor="let col of columns" [ngStyle]="col.style">
+                        <ng-container [ngSwitch]="col.field">
+                          <!-- <ng-container *ngSwitchCase="'userStartDate'">
+                            <ng-container>
+                              {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                            </ng-container>
+                          </ng-container> 
+                          <ng-container *ngSwitchCase="'userEndDate'">
+                            <ng-container>
+                              {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                            </ng-container>
+                          </ng-container> 
+                          <ng-container *ngSwitchCase="'userSts'">
+                            <ng-container>
+                              {{ rowData[col.field] | fwUserSts}} 
+                            </ng-container>
+                          </ng-container>  -->
+                          <ng-container *ngSwitchDefault>
+                            {{ rowData[col.field] }}
+                          </ng-container>                                                                            
+                        </ng-container>
+                      </td>
+                      <td>
+                        <p-button icon="ui-icon-edit" (click)="selectRowData(rowData)"></p-button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </form>
+</div>

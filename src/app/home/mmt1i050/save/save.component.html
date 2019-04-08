@@ -1,0 +1,59 @@
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [positionTop]="70" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" (onShow)="onShow()" [responsive]="false" [contentStyle]="{width: '50vw', height: '60vh', overflow: 'visible'}">
+        <form [formGroup]="saveForm">
+                <input type="hidden" formControlName="pricecfSerial" />
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">ผู้ส่งออก</div>
+                        <div class="ui-g-12 ui-md-4">
+                                <p-dropdown class="fz-dropdown" [style]="{'width' : '100%'}"  formControlName="supSerial"  [options]="supSerialList" 
+                                [ngClass]="{'ng-dirty ng-invalid':submitted && saveForm.controls.supSerial.errors}"></p-dropdown>
+                                <div *ngIf="submitted && saveForm.controls.supSerial.errors" style="color:red;">กรุณาระบุผู้ส่งออก</div>        
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">PartNo</div>
+                        <div class="ui-g-12 ui-md-4">
+                                <input #proCode type="text" maxlength="50" numberOnly formControlName="partNo" 
+                                        [ngClass]="{'requireField':submitted && saveForm.controls.partNo.errors}" />
+                                        <div *ngIf="submitted && saveForm.controls.partNo.errors" style="color:red;">กรุณาระบุPartNo</div>        
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">Price Confirm</div>
+                        <div class="ui-g-12 ui-md-4"><input type="text" maxlength="50" formControlName="pricecfNo" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.pricecfNo.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.pricecfNo.errors" style="color:red;">กรุณาระบุPrice Confirm</div>        
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">ราคา/หน่วย</div>
+                        <div class="ui-g-12 ui-md-4"><input type="text" style="text-align : right" currency maxlength="20" formControlName="priceUnit" 
+                                [ngClass]="{'requireField':submitted && saveForm.controls.priceUnit.errors}"/>
+                                <div *ngIf="submitted && saveForm.controls.priceUnit.errors" style="color:red;">กรุณาระบุราคา/หน่วย</div>        
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">วันที่เริ่มต้น</div>
+                        <div class="ui-g-12 ui-md-3"> <mr-datepicker  formControlName="startDate" ></mr-datepicker>
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">วันที่สิ้นสุด</div>
+                        <div class="ui-g-12 ui-md-3"> <mr-datepicker  formControlName="endDate"></mr-datepicker>
+                        </div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 font-right">หมายเหตุ</div>
+                        <div class="ui-g-12 ui-md-4"><input type="text" maxlength="200" formControlName="remark"/>
+                        </div>
+                </div>
+
+                <div class="ui-g">
+                        <div class="ui-g-12 font-center">
+                                <p-button icon="ui-icon-save"  label="บันทึก" (click)="onSaveTbPricecf()"></p-button>
+                                &nbsp;
+                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="onCancel()"></p-button>
+                        </div>
+                </div>
+        </form>
+</p-dialog>

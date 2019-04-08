@@ -1,0 +1,161 @@
+<app-fw-message #fwMessage></app-fw-message>
+<div class="container" #searchComponent>
+  <form [formGroup]="searchForm" >
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <p-fieldset legend="ค้นหา">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">รหัสผู้ส่งออก : </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+              <!-- <input type="text" pInputText formControlName="supCodeName" size="30"/> -->
+              <p-autoComplete #lovTbSupplier formControlName="tbSupplier" 
+                    [suggestions]="lovTbSupplierSelectedList" 
+                    field="label" [forceSelection]="true"
+                    (onClear)="searchForm.controls['tbSupplier'].setValue(null);"
+                    (completeMethod)="getLovTbSupplierList($event)" 
+                    [dropdown]="true" 
+                    placeholder="<เลือก>" size="50"></p-autoComplete>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">วันที่ส่งข้อมูล :</div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2">
+              <fw-datepicker formControlName="startSendDate" [maxDate]="maxDate" [readonlyInput]="true" [ngStyle]="{'display' : 'flex'}" ></fw-datepicker>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-1 ui-lg-offset-0 label-right">ถึง :</div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2">
+              <fw-datepicker formControlName="endSendDate" [maxDate]="maxDate" [readonlyInput]="true" [ngStyle]="{'display' : 'flex'}" ></fw-datepicker>
+            </div>
+          </div>
+          <div class="ui-g">
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">ชื่อไฟล์ :</div>
+              <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4"><input type="text" pInputText formControlName="impFilename" size="30"/></div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 ui-lg-offset-2 label-right">สถานะข้อมูล :</div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4">
+              <!-- <input type="text" pInputText formControlName="orderStatus"/> -->
+              <p-autoComplete #lovTbSupplier formControlName="mJob" 
+                    [suggestions]="lovMJobSelectedList" 
+                    field="label" [forceSelection]="true"
+                    (onClear)="searchForm.controls['mJob'].setValue(null);"
+                    (completeMethod)="getLovMJobList($event)" 
+                    [dropdown]="true" 
+                    placeholder="<เลือก>" size="50"></p-autoComplete>
+            </div>
+          </div>
+          <div class="ui-g-12" style="text-align: center">
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              <button pButton icon="ui-icon-search" label="ค้นหา" (click)="search()"> </button>
+              &nbsp;
+              <button pButton icon="ui-icon-cancel" label="ยกเลิก" (click)="reset()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <div class="ui-g-12" style="text-align: right">
+              <p-button icon="ui-icon-save" label="นำเข้าข้อมูล" (click)="toUploadPage()"></p-button>
+              &nbsp;
+              <!-- <button icon="ui-icon-add-circle" pButton label="เพิ่ม" (click)="toAddPage()"></button>
+              &nbsp;
+              <button icon="ui-icon-delete" pButton label="ลบ"></button> -->
+            </div>
+              <div class="ui-g-12" style="text-align: -webkit-center;">
+                <p-table #tb [columns]="cols" [value]="invOrderMasList" [lazy]="true" dataKey="ordermSerial" 
+                (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20,30]" 
+                [totalRecords]="totalRecords"  [loading]="loading" [responsive]="true" paginatorPosition="top" 
+                selectionMode="single" (onRowSelect)="onRowSelect($event)" [scrollable]="true" [style]="{width:'78em'}">    
+                  <ng-template pTemplate="caption">
+                          ตารางข้อมูล
+                  </ng-template>
+
+                  <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col style="width: 5em">
+                        <col *ngFor="let col of columns" [width]="col.width ? col.width : ''">
+                        <!-- <col style="width:4em"> -->
+                      </colgroup>
+                  </ng-template>
+
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                    <th style="width: 5em">
+                      <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                      ref
+                    </th>
+                    <th *ngFor="let col of columns" style="text-align: center" [width]="col.width ? col.width : ''">
+                            {{col.header}}
+                    </th>
+                    <!-- <th style="width:4em"></th> -->
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                    <tr [pSelectableRow]="rowData" [ngStyle]=" rowData['jobId'] >= 90 ? {'background-color' : 'rgba(255, 0, 0, 0.4)'} : ''">
+                      <td [ngStyle]="{'text-align' : 'center'}">
+                        <!-- <p-tableCheckbox [value]="rowData"></p-tableCheckbox> -->
+                        {{rowIndex + 1}}
+                      </td>
+                      <td *ngFor="let col of columns" [ngStyle]="col.style">
+                        <ng-container [ngSwitch]="col.field">
+                          <ng-container *ngSwitchCase="'impFilename'">
+                            <ng-container>
+                              {{ rowData[col.field] }} <button *ngIf="rowData[col.field]" icon="ui-icon-file-download" pButton (click)="exportFile(rowData[col.field])"></button>
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'jobhDate'">
+                            <ng-container>
+                              {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'deliveryDate'">
+                            <ng-container>
+                              {{ rowData['dvdateStart'] | dateThaiFormatDDMMYYYY}} - {{ rowData['dvdateEnd'] | dateThaiFormatDDMMYYYY}}
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'pplDate'">
+                              <ng-container>
+                                {{ rowData[col.field] | dateThaiFormatDDMMYYYY}} 
+                              </ng-container>
+                            </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            {{ rowData[col.field] }}
+                          </ng-container>                                                                            
+                        </ng-container>
+                      </td>
+                      <!-- <td>
+                        <p-button icon="ui-icon-edit" (click)="selectRowData(rowData)"></p-button>
+                      </td> -->
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="emptymessage" let-columns>
+                      <tr>
+                          <td [attr.colspan]="columns.length + 1">
+                              ไม่พบข้อมูล
+                          </td>
+                      </tr>
+                  </ng-template>
+                </p-table>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

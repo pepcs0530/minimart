@@ -1,0 +1,61 @@
+<style>
+        input[type="text"]{width: 100%;}
+        .requireField{
+                border:1px solid red;
+        }
+</style>
+
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [modal]="true" [resizable]="false"
+        [focusOnShow]="false" (onShow)="onShow()" [contentStyle]="{width: '50vw', height: '60vh', overflow: 'visible'}">
+        <!-- <form [formGroup]="saveForm" (ngSubmit)="tbBuyerSave()" > -->
+        <form [formGroup]="saveForm">
+                <input type="hidden" formControlName="unitSerial" />
+                <div class="ui-g-12">
+                        <div class="ui-g-4" style="text-align:right">รหัสหน่วยสินค้า</div>
+                        <div class="ui-g-4 ui-md-3">
+                                <input type="text" maxlength="5" formControlName="unitCode" [ngClass]="{'requireField':submitted && saveForm.controls.unitCode.errors}">
+                                <div *ngIf="submitted && saveForm.controls.unitCode.errors" style="color:red;">กรุณาระบุรหัสหน่วยสินค้า</div>
+                        </div>
+                        <div class="ui-g-4 ui-md-3">
+                                <p-checkbox  binary="true" label="หน่วยเป็นน้ำหนัก" formControlName="weightFlag" ></p-checkbox>
+                        </div>
+                </div>
+                <div class="ui-g-12">
+                        <div class="ui-g-4" style="text-align:right">ชื่อหน่วยสินค้า ภาษาอังกฤษ</div>
+                        <div class="ui-g-8 ui-md-5">
+                                <input type="text" maxlength="50" formControlName="unitNameEng" [ngClass]="{'requireField':submitted && saveForm.controls.unitNameEng.errors}">
+                                <div *ngIf="submitted && saveForm.controls.unitNameEng.errors" style="color:red;">กรุณาระบุชื่อหน่วยสินค้า ภาษาอังกฤษ</div>
+                        </div>
+                </div>
+                <div class="ui-g-12">
+                        <div class="ui-g-4" style="text-align:right">ภาษาไทย</div>
+                        <div class="ui-g-8 ui-md-5">
+                                <input type="text" maxlength="50" formControlName="unitNameTh">
+                        </div>
+                </div>
+                <div class="ui-g-12">
+                        <div class="ui-g-4" style="text-align:right">รหัสกรมฯ PPL</div>
+                        <div class="ui-g-8 ui-md-5">
+                                <input type="text" maxlength="20" formControlName="unitPpl">
+                        </div>
+                </div>
+                <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">หน่วยหีบห่อ</div>
+                                <div class="ui-g-8 ui-md-4">
+                                        <input type="text" style="text-align : left" currency maxlength="20" formControlName="unitPkg">
+                                </div>
+                        </div>
+                                        <div class="ui-g-12" style="text-align: center">
+                                                <button icon="ui-icon-save" pButton label="บันทึก" (click)="tbUnitSave()"></button>
+                                                &nbsp;
+                                                <button icon="pi pi-times" pButton label="ยกเลิก" (click)="cancelForm()"></button>
+                                        </div>
+                                        <!--
+                                </p-tabPanel>
+
+                        </p-tabView>
+                </div> -->
+
+
+        </form>
+</p-dialog>

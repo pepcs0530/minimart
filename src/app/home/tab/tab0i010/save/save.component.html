@@ -1,0 +1,37 @@
+<style>
+                input[type="text"],input[type="number"]{width: 100%;}
+                .requireField{
+                        border:1px solid red;
+                }
+                @media only screen and (min-width: 641px) {
+                        .font-right {text-align: right}
+                }
+                .font-center {text-align: center}
+        </style>
+        
+        <p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [positionTop]="70" [modal]="true" [resizable]="false"
+                [focusOnShow]="false" (onShow)="onShow()">
+                <form [formGroup]="saveForm">
+                        <!-- <input type="hidden" formControlName="byrSerial" /> -->
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">รหัสจังหวัด : </div>
+                                <div class="ui-g-2 ui-md-2"><input #byrCode type="text" formControlName="provinceId" style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">ชื่อจังหวัด: </div>
+                                <div class="ui-g-2 ui-md-4"><input #byrCode type="text" formControlName="provinceName" style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                        <div class="ui-g-12">
+                                <div class="ui-g-4" style="text-align:right">ชื่อภาค : </div>
+                                <div class="ui-g-2 ui-md-4"><input type="text" formControlName="provinceDesc" #byrCode style="width:100%"/></div>
+                                <div class="ui-g-4 ui-md-4"></div>
+                        </div>
+                                                <div class="ui-g-12 font-center">
+                                                        <button icon="ui-icon-save" pButton label="บันทึก" (click)="onSave()"></button>
+                                                        &nbsp;
+                                                        <button icon="ui-icon-cancel" pButton label="ยกเลิก" (click)="onCancel()"></button>
+                                                </div>
+                </form>
+        </p-dialog>

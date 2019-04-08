@@ -1,0 +1,113 @@
+<p-dialog [(header)]="lableTextField" [(visible)]="visibleDialog" [positionTop]="70" [modal]="true" [resizable]="false"
+        [focusOnShow]="false"  [responsive]="false" [contentStyle]="{'overflow':'visible'}" [style]="{'position':'absolute'}">
+        <form [formGroup]="saveForm">
+                <!-- <input type="hidden" formControlName="proSerial" /> -->
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">วันที่นำเข้าข้อมูล</div>
+                        <div class="ui-g-2">
+                                <div [ngClass]="{'requireField':submitted && saveForm.controls.uploadDate.errors}"><mr-datepicker  formControlName="uploadDate" placeholder="Required" class="form-control"  ></mr-datepicker></div>
+                                <div *ngIf="submitted && f.uploadDate.errors" style="color:red;">
+                                        กรุณาระบุวันที่นำเข้าข้อมูล
+                                </div>
+                        </div>
+
+
+                        <!-- <div class="ui-g-12 ui-lg-4"></div> -->
+                </div>
+                <!-- <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ผู้ส่งออก</div>
+                                <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                        
+        
+                                        <div style="width: fit-content;" [ngClass]="{'requireField':submitted && saveForm.controls.supSerial.errors}"><p-dropdown [options]="supSerialThList" formControlName="supSerial"
+                                        filter="true" placeholder="เลือก" ></p-dropdown></div>
+                                        <div *ngIf="submitted && f.supSerial.errors" style="color:red;">
+                                                กรุณาระบุผู้ส่งออก
+                                        </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">&nbsp;</div>
+                </div> -->
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ผู้ส่งออก</div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                                
+
+                                <!-- <div style="width: fit-content;" [ngClass]="{'requireField':submitted && saveForm.controls.supSerial.errors}"><p-dropdown [options]="supSerialThList" formControlName="supSerial"
+                                filter="true" placeholder="เลือก" ></p-dropdown></div> -->
+
+                                <div style="width: fit-content;" [ngClass]="{'requireField':submitted && saveForm.controls.supSerial.errors}">
+                                        <p-autoComplete formControlName="supSerial" [suggestions]="supSerialThList2" field="label" [forceSelection]="true" (completeMethod)="getSupSerialThSubCodeList($event)" [dropdown]="true" placeholder="เลือก"></p-autoComplete>
+                                </div>
+                                <div *ngIf="submitted && f.supSerial.errors" style="color:red;">
+                                        กรุณาระบุผู้ส่งออก
+                                </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-4">&nbsp;</div>
+                </div>
+                <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4 ui-lg-4 font-right">ไฟล์ข้อมูล</div>
+                               
+                                        <p-fileUpload name="myfile"  url="http://127.0.0.1:8080/mr-framework/mmt1i050/api/upload/" (onBeforeSend)="onBeforeSend($event)" (onSelect)="onSelect($event)" (onBeforeUpload)="onBeforeUploadIncome($event)" (onUpload)="onUpload($event)" ></p-fileUpload>
+                                        
+                                <div class="ui-g-12 ui-lg-4"></div>
+                </div>
+                <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4"></div>
+                        <div class="ui-g-12 ui-md-8">
+                                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                <button icon="ui-icon-search" pButton label="ค้นหา" (click)="onSearchPrice()">
+                                </button>
+                                &nbsp;
+                                <p-button icon="ui-icon-cancel" label="ยกเลิก" (click)="cancelForm()"></p-button>
+                        </div>
+                </div>
+                <div class="ui-g-12">
+                        <p-table #tb [columns]="cols" [value]="tbUploadList" [lazy]="true" dataKey="proSerial"
+                                (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="5"
+                                [totalRecords]="totalRecords" [loading]="loading" [(selection)]="tbUploadSelectList"
+                                [responsive]="true" paginatorPosition="top" [rowsPerPageOptions]="[5,10,20,30]">
+                                <ng-template pTemplate="caption">
+                                        ตารางข้อมูลการนำเข้าสินค้า
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns>
+                                        <tr style="text-align: center">
+                                                <!-- <th style="width: 3em"> -->
+                                                        <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                                                <!-- </th> -->
+                                                <!-- <th *ngFor="let col of columns" style="text-align: center">
+                                                        {{col.header}}
+                                                </th> -->
+                                                <!-- <th style="width:4em"></th> -->
+
+                                                <!-- <th style="width: 3em;">
+                                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                </th> -->
+                                                <th style="width: 5%;">ลำดับ</th>
+                                                <th>ผู้ส่งออก</th>
+                                                <th>วันที่นำเข้าข้อมูล</th>
+                                                <th>จำนวนรายการ<br/>สมบูรณ์/ไม่สมบูรณ์</th>
+                                                <th>ชื่อไฟล์</th>
+                                                <th>Export รายงานผล</th>
+                                                <!-- <th style="width: 5%;"></th> -->
+                                        </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                        <tr [pSelectableRow]="rowData">
+
+                                                <!-- <td>
+                                                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                                </td> -->
+                                                <td *ngFor="let col of columns">
+                                                        {{rowData[col.field]}}
+                                                </td>
+                                                <!-- <td>
+                                                        <button icon="ui-icon-edit" (click)="onEditProduct(rowData)"></button>
+                                                </td> -->
+                                        </tr>
+                                </ng-template>
+                        </p-table>
+                </div>
+        </form>
+</p-dialog>
